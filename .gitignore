@@ -1,0 +1,17 @@
+# PDFs, txt, zip, pptx, docx
+*.pdf
+*.txt
+*.zip
+*.pptx
+*.docx
+*.ppt
+*.pptm
+module_1/Calculus & Optimization/calculus_assignments/Assignments
+module_1/Calculus & Optimization/lesson_slides
+module_1/Probability & Statistics/additional_material
+module_1/Probability & Statistics/assignments
+module_1/Probability & Statistics/lesson_slides
+module_1/Probability & Statistics/problems
+module_1/Linear Algebra/additional_material
+module_1/Linear Algebra/slides
+module_1/Linear Algebra/tasks
