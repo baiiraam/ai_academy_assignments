@@ -2,7 +2,8 @@
 # Starter Code Template
 
 import numpy as np
-from scipy.linalg import null_space # For verification
+from scipy.linalg import null_space  # For verification
+
 
 # --- Helper Functions for Pretty Printing ---
 def print_matrix(name, m):
@@ -13,6 +14,7 @@ def print_matrix(name, m):
         np.set_printoptions(precision=4, suppress=True)
         print(f"{name}:\n{m}")
     print("-" * 40)
+
 
 def print_vectors(name, vecs):
     """Prints a list of vectors."""
@@ -25,15 +27,12 @@ def print_vectors(name, vecs):
             print(f"  Vector {i+1}:\n{v.reshape(-1, 1)}")
     print("-" * 40)
 
+
 # --- Problem Setup ---
 # The matrix A and vector b for this assignment
-A = np.array([
-    [1., 2., 3., 5.],
-    [2., 4., 8., 12.],
-    [3., 6., 7., 13.]
-])
+A = np.array([[1.0, 2.0, 3.0, 5.0], [2.0, 4.0, 8.0, 12.0], [3.0, 6.0, 7.0, 13.0]])
 
-b = np.array([4., 10., 10.])
+b = np.array([4.0, 10.0, 10.0])
 
 print_matrix("Original Matrix A", A)
 print_matrix("Original Vector b", b.reshape(-1, 1))
@@ -43,6 +42,7 @@ print_matrix("Original Vector b", b.reshape(-1, 1))
 # Reduced Row Echelon Form (RREF). It's highly recommended to
 # create a robust helper function for this first.
 # ====================================================================
+
 
 def to_rref(M):
     """
@@ -97,6 +97,7 @@ def to_rref(M):
 # Part 4.1: Finding the Nullspace Basis
 # ====================================================================
 
+
 def find_nullspace_basis(A):
     """
     Finds the basis for the nullspace of matrix A.
@@ -143,6 +144,7 @@ def find_nullspace_basis(A):
 
     return basis_vectors
 
+
 # --- Calling the function for Part 4.1 ---
 print("--- Part 4.1: Finding the Nullspace Basis ---")
 nullspace_basis = find_nullspace_basis(A.copy())
@@ -176,6 +178,7 @@ print_matrix("Nullspace basis from SciPy (orthonormal)", scipy_ns)
 # Part 4.3: Finding a Particular Solution
 # ====================================================================
 
+
 def find_particular_solution(A, b):
     """
     Finds one particular solution to the system Ax = b.
@@ -202,7 +205,10 @@ def find_particular_solution(A, b):
     # Check for inconsistency
     for i in range(m):
         # Check if row is [0, 0, ..., 0 | c] with c != 0
-        if np.all(np.abs(rref_augmented[i, :-1]) < 0.00005) and abs(rref_augmented[i, -1]) > 0.00005:
+        if (
+            np.all(np.abs(rref_augmented[i, :-1]) < 0.00005)
+            and abs(rref_augmented[i, -1]) > 0.00005
+        ):
             print("System is inconsistent - no solution exists")
             return None
 
@@ -226,10 +232,14 @@ def find_particular_solution(A, b):
 
     return particular_solution
 
+
 # --- Calling the function for Part 4.3 ---
 print("--- Part 4.3: Finding a Particular Solution ---")
 x_p = find_particular_solution(A.copy(), b.copy())
-print_matrix("Particular Solution x_p (from scratch)", x_p.reshape(-1, 1) if x_p is not None else None)
+print_matrix(
+    "Particular Solution x_p (from scratch)",
+    x_p.reshape(-1, 1) if x_p is not None else None,
+)
 
 
 # ====================================================================
@@ -238,7 +248,9 @@ print_matrix("Particular Solution x_p (from scratch)", x_p.reshape(-1, 1) if x_p
 print("--- Part 4.4: Constructing and Verifying the Complete Solution ---")
 
 if x_p is None or not nullspace_basis:
-    print("Cannot construct complete solution: particular solution or nullspace is missing.")
+    print(
+        "Cannot construct complete solution: particular solution or nullspace is missing."
+    )
 else:
     # 1. Get the components
     print("Particular solution x_p and nullspace basis are available.")
@@ -246,7 +258,7 @@ else:
     # 2. Create a vector x_n from the nullspace
     # Example: x_n = 2*s1 - 3*s2
     # Let's use scalars c1=2, c2=-3 if there are at least two basis vectors
-    scalars = [2, -3, 1, -1.5] # Add more if needed
+    scalars = [2, -3, 1, -1.5]  # Add more if needed
     x_n = np.zeros(A.shape[1])
 
     print("\nConstructing x_n from nullspace basis:")

@@ -22,9 +22,7 @@ def gaussian_pdf(x, mu, sigma):
     Implementation of univariate Gaussian PDF.
     """
     # Implement 1/(sigma * sqrt(2pi)) * exp(...)
-    return (1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(
-        -0.5 * ((x - mu) / sigma) ** 2
-    )
+    return (1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((x - mu) / sigma) ** 2)
 
 
 def gaussian_cdf(x, mu, sigma):
@@ -168,7 +166,9 @@ def run_section_2():
         label="Poisson Approx",
         color="red",
     )
-    plt.axvline(target_k, color="green", linestyle="--", alpha=0.5, label=f"k={target_k}")
+    plt.axvline(
+        target_k, color="green", linestyle="--", alpha=0.5, label=f"k={target_k}"
+    )
 
     plt.title(f"Law of Rare Events: Binomial vs Poisson (n={n}, p={p:.4f}, λ={lam})")
     plt.xlabel("Number of Clicks (k)")

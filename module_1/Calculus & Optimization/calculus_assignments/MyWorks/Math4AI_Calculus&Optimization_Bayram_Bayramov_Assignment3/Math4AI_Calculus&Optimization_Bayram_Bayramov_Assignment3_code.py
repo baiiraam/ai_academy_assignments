@@ -8,10 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.integrate as spi
 
-
 # ====================================================================
 # --- Helper Function for Pretty Printing ---
 # ====================================================================
+
 
 def print_result(problem, description, value):
     """
@@ -37,6 +37,7 @@ def print_result(problem, description, value):
 # --------------------------------------------------------------------
 # Problem 1.1: Numerical Integration using Riemann Sums
 # --------------------------------------------------------------------
+
 
 def riemann_integral(f, a, b, n):
     """
@@ -87,14 +88,12 @@ if __name__ == "__main__":
     print("Math4AI: Assignment 3 Verification")
     print("=====================================================")
 
-
     # --- Problem 1.1 Verification ---
 
     # 1. Define the PDF of the standard normal distribution
     def phi(x):
         """Probability Density Function of the standard normal distribution"""
-        return (1.0 / np.sqrt(2 * np.pi)) * np.exp(-x**2 / 2)
-
+        return (1.0 / np.sqrt(2 * np.pi)) * np.exp(-(x**2) / 2)
 
     # 2. Set the integration bounds and parameters
     a_val = -1.0
@@ -103,7 +102,11 @@ if __name__ == "__main__":
 
     # 3. Call your 'from scratch' implementation
     integral_scratch = riemann_integral(phi, a_val, b_val, n_val)
-    print_result("Problem 1.1", f"Integral of phi(x) from {a_val} to {b_val} (Scratch, n={n_val})", integral_scratch)
+    print_result(
+        "Problem 1.1",
+        f"Integral of phi(x) from {a_val} to {b_val} (Scratch, n={n_val})",
+        integral_scratch,
+    )
 
     # 4. Verify with SciPy
 
@@ -116,7 +119,11 @@ if __name__ == "__main__":
     # Compute the integral using SciPy's quad function
     integral_scipy, error_estimate = spi.quad(phi, a_val, b_val)
 
-    print_result("Problem 1.1", f"Integral of phi(x) from {a_val} to {b_val} (SciPy)", integral_scipy)
+    print_result(
+        "Problem 1.1",
+        f"Integral of phi(x) from {a_val} to {b_val} (SciPy)",
+        integral_scipy,
+    )
 
     # Print the error estimate from SciPy
     print(f"SciPy error estimate: {error_estimate:.2e}")
@@ -153,12 +160,12 @@ if __name__ == "__main__":
     plt.figure(figsize=(12, 6))
 
     # Plot the PDF - using raw strings for LaTeX to avoid escape sequence warnings
-    plt.plot(x_plot, y_plot, 'b-', linewidth=2, label=r'Standard Normal PDF: $\phi(x)$')
+    plt.plot(x_plot, y_plot, "b-", linewidth=2, label=r"Standard Normal PDF: $\phi(x)$")
 
     # Shade the area under the curve from -1 to 1
     x_fill = np.linspace(a_val, b_val, 1000)
     y_fill = phi(x_fill)
-    plt.fill_between(x_fill, y_fill, alpha=0.3, color='blue', label='Area ≈ 0.6827')
+    plt.fill_between(x_fill, y_fill, alpha=0.3, color="blue", label="Area ≈ 0.6827")
 
     # Add rectangles for visualization (using n=10 for clarity)
     n_vis = 10
@@ -172,27 +179,38 @@ if __name__ == "__main__":
         # Draw rectangle
         rect_x = [left, right, right, left, left]
         rect_y = [0, 0, height, height, 0]
-        plt.plot(rect_x, rect_y, 'r-', alpha=0.5, linewidth=0.8)
-        plt.fill_between([left, right], [0, 0], [height, height],
-                        alpha=0.1, color='red')
+        plt.plot(rect_x, rect_y, "r-", alpha=0.5, linewidth=0.8)
+        plt.fill_between(
+            [left, right], [0, 0], [height, height], alpha=0.1, color="red"
+        )
 
     # Add vertical lines at ±1
-    plt.axvline(x=-1, color='green', linestyle='--', alpha=0.7, label='x = ±1')
-    plt.axvline(x=1, color='green', linestyle='--', alpha=0.7)
+    plt.axvline(x=-1, color="green", linestyle="--", alpha=0.7, label="x = ±1")
+    plt.axvline(x=1, color="green", linestyle="--", alpha=0.7)
 
     # Add labels and title - using raw strings for LaTeX
-    plt.title(r'Riemann Sum Approximation of $\int_{-1}^{1} \phi(x) dx$ (n=' + str(n_vis) + ' rectangles)', fontsize=14)
-    plt.xlabel('x', fontsize=12)
-    plt.ylabel(r'$\phi(x)$', fontsize=12)
+    plt.title(
+        r"Riemann Sum Approximation of $\int_{-1}^{1} \phi(x) dx$ (n="
+        + str(n_vis)
+        + " rectangles)",
+        fontsize=14,
+    )
+    plt.xlabel("x", fontsize=12)
+    plt.ylabel(r"$\phi(x)$", fontsize=12)
     plt.legend(fontsize=10)
     plt.grid(True, alpha=0.3)
-    
+
     # Add text box with results
-    result_text = f'Riemann sum (n={n_val}): {integral_scratch:.6f}\n'
-    result_text += f'SciPy quad: {integral_scipy:.6f}\n'
-    result_text += f'Error: {abs(integral_scipy - integral_scratch):.2e}'
-    plt.text(1.5, 0.35, result_text, fontsize=10,
-             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+    result_text = f"Riemann sum (n={n_val}): {integral_scratch:.6f}\n"
+    result_text += f"SciPy quad: {integral_scipy:.6f}\n"
+    result_text += f"Error: {abs(integral_scipy - integral_scratch):.2e}"
+    plt.text(
+        1.5,
+        0.35,
+        result_text,
+        fontsize=10,
+        bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8),
+    )
 
     plt.tight_layout()
     plt.show()

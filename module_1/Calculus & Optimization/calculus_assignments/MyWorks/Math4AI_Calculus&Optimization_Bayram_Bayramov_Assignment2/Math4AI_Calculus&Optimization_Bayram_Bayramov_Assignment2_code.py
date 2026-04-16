@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 import sympy as sp
 import math
 
-
 # ====================================================================
 # --- Helper Function for Pretty Printing ---
 # ====================================================================
+
 
 def print_result(problem, description, value):
     """
@@ -38,6 +38,7 @@ def print_result(problem, description, value):
 # --------------------------------------------------------------------
 # Problem 1.1: Numerical Differentiation from Scratch
 # --------------------------------------------------------------------
+
 
 def numerical_derivative(f, x, h):
     """
@@ -71,6 +72,7 @@ def numerical_derivative(f, x, h):
 # --------------------------------------------------------------------
 # Problem 1.2: Taylor Series for Function Approximation
 # --------------------------------------------------------------------
+
 
 def approximate_taylor(f_sym, a, order, x_range):
     """
@@ -120,10 +122,10 @@ def approximate_taylor(f_sym, a, order, x_range):
 
     # TODO 8: Turn the final symbolic Taylor polynomial into a callable numeric function.
     # Use sp.lambdify(). 'numpy' allows it to work with numpy arrays.
-    taylor_func = sp.lambdify(x, taylor_poly, 'numpy')
+    taylor_func = sp.lambdify(x, taylor_poly, "numpy")
 
     # TODO 9: Turn the original symbolic function 'f_sym' into a callable numeric function.
-    original_func = sp.lambdify(x, f_sym, 'numpy')
+    original_func = sp.lambdify(x, f_sym, "numpy")
 
     # TODO 10: Evaluate both callable functions over the given x_range.
     y_original = original_func(x_range)
@@ -133,13 +135,23 @@ def approximate_taylor(f_sym, a, order, x_range):
     plt.figure(figsize=(10, 6))
 
     # Plot the original function
-    plt.plot(x_range, y_original, label="Original Function: $f(x) = tanh(x)$", linewidth=2)
+    plt.plot(
+        x_range, y_original, label="Original Function: $f(x) = tanh(x)$", linewidth=2
+    )
 
     # Plot the Taylor approximation
-    plt.plot(x_range, y_approx, label=f"Taylor Approx. (Order {order})", linestyle='--', linewidth=2)
+    plt.plot(
+        x_range,
+        y_approx,
+        label=f"Taylor Approx. (Order {order})",
+        linestyle="--",
+        linewidth=2,
+    )
 
     # Add title, labels, legend, and grid
-    plt.title(f"Taylor Approximation of tanh(x) around a={a} (Order {order})", fontsize=14)
+    plt.title(
+        f"Taylor Approximation of tanh(x) around a={a} (Order {order})", fontsize=14
+    )
     plt.xlabel("x", fontsize=12)
     plt.ylabel("f(x)", fontsize=12)
     plt.legend(fontsize=12)
@@ -147,7 +159,9 @@ def approximate_taylor(f_sym, a, order, x_range):
     plt.ylim(-1.5, 1.5)  # Optional: set y-limits for better visualization
 
     # Mark the expansion point
-    plt.axvline(x=a, color='red', linestyle=':', alpha=0.5, label=f'Expansion point a={a}')
+    plt.axvline(
+        x=a, color="red", linestyle=":", alpha=0.5, label=f"Expansion point a={a}"
+    )
     plt.legend(fontsize=12)
 
     # Show the plot
@@ -166,7 +180,6 @@ if __name__ == "__main__":
     print("Math4AI: Assignment 2 Verification")
     print("=====================================================")
 
-
     # --- Problem 1.1 Verification ---
 
     # 1. Define the Loss function L(w)
@@ -174,23 +187,24 @@ if __name__ == "__main__":
         """Loss function L(w) = (w - 5)^2 + 3"""
         return (w - 5) ** 2 + 3
 
-
     # 2. Set parameters
     w_val = 10.0
     h_val = 1e-7
 
     # 3. Call your 'from scratch' implementation
     deriv_scratch = numerical_derivative(loss_func, w_val, h_val)
-    print_result("Problem 1.1", f"Derivative of L(w) at w={w_val} (Scratch)", deriv_scratch)
+    print_result(
+        "Problem 1.1", f"Derivative of L(w) at w={w_val} (Scratch)", deriv_scratch
+    )
 
     # 4. Verify with SymPy
 
     # TODO:
     # 1. Define 'w' as a symbolic variable using sp.symbols().
-    w = sp.symbols('w')
+    w = sp.symbols("w")
 
     # 2. Define the symbolic function L_sym = (w - 5)**2 + 3.
-    L_sym = (w - 5)**2 + 3
+    L_sym = (w - 5) ** 2 + 3
 
     # 3. Compute the derivative of L_sym using sp.diff().
     L_prime_sym = sp.diff(L_sym, w)
@@ -212,7 +226,7 @@ if __name__ == "__main__":
     print("Generating Taylor series plots for tanh(x)...")
 
     # 1. Define the symbolic variable and function for tanh(x)
-    x_sym = sp.symbols('x')
+    x_sym = sp.symbols("x")
     f_sym_tanh = sp.tanh(x_sym)
 
     # 2. Define the x_range for plotting

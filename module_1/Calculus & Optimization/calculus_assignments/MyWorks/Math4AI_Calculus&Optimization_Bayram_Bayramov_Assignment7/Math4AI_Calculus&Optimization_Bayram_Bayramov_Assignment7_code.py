@@ -50,7 +50,9 @@ def portfolio_risk_std(w: np.ndarray, Sigma: np.ndarray) -> float:
     return float(np.sqrt(max(var, 0.0)))
 
 
-def feasible_target_grid(mu: np.ndarray, num: int = 25, eps: float = 1e-9) -> np.ndarray:
+def feasible_target_grid(
+    mu: np.ndarray, num: int = 25, eps: float = 1e-9
+) -> np.ndarray:
     """
     Under w >= 0 and sum(w)=1, achievable returns lie in [min(mu), max(mu)].
     We generate a grid in that range.
@@ -66,9 +68,7 @@ def feasible_target_grid(mu: np.ndarray, num: int = 25, eps: float = 1e-9) -> np
 # Part 1: Equality constraints (Lagrange multipliers)
 # ============================================================
 def solve_portfolio_lagrange(
-    mu: np.ndarray,
-    Sigma: np.ndarray,
-    target_return: float
+    mu: np.ndarray, Sigma: np.ndarray, target_return: float
 ) -> tuple[np.ndarray, float, float]:
     """
     Solve the equality-constrained Markowitz problem (short selling allowed):
@@ -104,8 +104,8 @@ def solve_portfolio_lagrange(
 
     # RHS vector: [0,...,0, target_return, 1]^T
     b = np.zeros(n + 2)
-    b[n] = target_return      # mu^T w = R_target constraint
-    b[n + 1] = 1.0            # 1^T w = 1 constraint
+    b[n] = target_return  # mu^T w = R_target constraint
+    b[n + 1] = 1.0  # 1^T w = 1 constraint
 
     # Solve linear system with fallback for singular matrices
     try:
@@ -115,7 +115,7 @@ def solve_portfolio_lagrange(
 
     # Extract solution
     w = z[:n]
-    lambda1 = z[n]      # Multiplier for return constraint (mu^T w = R_target)
+    lambda1 = z[n]  # Multiplier for return constraint (mu^T w = R_target)
     lambda2 = z[n + 1]  # Multiplier for budget constraint (1^T w = 1)
 
     return w, lambda1, lambda2
@@ -129,7 +129,7 @@ def solve_portfolio_kkt(
     Sigma: np.ndarray,
     target_return: float,
     tol: float = 1e-9,
-    maxiter: int = 500
+    maxiter: int = 500,
 ) -> np.ndarray:
     """
     Solve the no-short portfolio problem:
@@ -161,8 +161,8 @@ def solve_portfolio_kkt(
 
     # Equality constraints: sum(w)=1, mu^T w = target_return
     constraints = [
-        {'type': 'eq', 'fun': lambda w: np.sum(w) - 1.0},
-        {'type': 'eq', 'fun': lambda w: w @ mu - target_return}
+        {"type": "eq", "fun": lambda w: np.sum(w) - 1.0},
+        {"type": "eq", "fun": lambda w: w @ mu - target_return},
     ]
 
     # Bounds: w_i >= 0 (and <= 1 since they sum to 1)
@@ -175,10 +175,10 @@ def solve_portfolio_kkt(
     res = minimize(
         objective,
         w0,
-        method='SLSQP',
+        method="SLSQP",
         bounds=bounds,
         constraints=constraints,
-        options={'maxiter': maxiter, 'ftol': tol, 'disp': False}
+        options={"maxiter": maxiter, "ftol": tol, "disp": False},
     )
 
     if not res.success:
@@ -197,10 +197,7 @@ def solve_portfolio_kkt(
 # Efficient frontier + plotting (provided)
 # ============================================================
 def compute_frontier(
-    mu: np.ndarray,
-    Sigma: np.ndarray,
-    target_returns: np.ndarray,
-    solver_fn
+    mu: np.ndarray, Sigma: np.ndarray, target_returns: np.ndarray, solver_fn
 ) -> list[tuple[float, float]]:
     """
     Computes a (risk, return) list for a set of target returns using solver_fn.
@@ -224,7 +221,7 @@ def compute_frontier(
 def plot_efficient_frontier(
     lagrange_pts: list[tuple[float, float]],
     kkt_pts: list[tuple[float, float]],
-    filename: str = "efficient_frontier.png"
+    filename: str = "efficient_frontier.png",
 ) -> None:
     """
     Plots the Efficient Frontier curves and saves to filename.
@@ -238,8 +235,8 @@ def plot_efficient_frontier(
     k_risk, k_ret = zip(*kkt_pts)
 
     plt.figure(figsize=(10, 6))
-    plt.plot(l_risk, l_ret, 'b--', linewidth=2, label="With Short Selling (Lagrange)")
-    plt.plot(k_risk, k_ret, 'r-', linewidth=2, label="No Short Selling (KKT/SciPy)")
+    plt.plot(l_risk, l_ret, "b--", linewidth=2, label="With Short Selling (Lagrange)")
+    plt.plot(k_risk, k_ret, "r-", linewidth=2, label="No Short Selling (KKT/SciPy)")
 
     plt.xlabel(r"Risk $\sigma(w)=\sqrt{w^T\Sigma w}$")
     plt.ylabel(r"Return $\mu^T w$")
@@ -263,11 +260,10 @@ def verify_solution_correctness():
     print("=" * 60)
 
     mu = np.array([0.05, 0.06, 0.08], dtype=float)
-    Sigma = np.array([
-        [0.010, 0.002, 0.001],
-        [0.002, 0.015, 0.005],
-        [0.001, 0.005, 0.020]
-    ], dtype=float)
+    Sigma = np.array(
+        [[0.010, 0.002, 0.001], [0.002, 0.015, 0.005], [0.001, 0.005, 0.020]],
+        dtype=float,
+    )
 
     target_return = 0.06
 
@@ -277,8 +273,12 @@ def verify_solution_correctness():
     # Test Lagrange solver
     print("\n1. Lagrange Solver (Short Selling Allowed):")
     try:
-        w_lagrange, lambda1, lambda2 = solve_portfolio_lagrange(mu, Sigma, target_return)
-        print(f"   Optimal weights: [{w_lagrange[0]:.4f}, {w_lagrange[1]:.4f}, {w_lagrange[2]:.4f}]")
+        w_lagrange, lambda1, lambda2 = solve_portfolio_lagrange(
+            mu, Sigma, target_return
+        )
+        print(
+            f"   Optimal weights: [{w_lagrange[0]:.4f}, {w_lagrange[1]:.4f}, {w_lagrange[2]:.4f}]"
+        )
         print(f"   Portfolio return: {w_lagrange @ mu:.6f} (target: {target_return})")
         print(f"   Sum of weights: {np.sum(w_lagrange):.6f} (should be 1)")
         print(f"   Portfolio variance: {w_lagrange.T @ Sigma @ w_lagrange:.6f}")

@@ -8,14 +8,15 @@ import numpy as np
 
 # --- Sample Word Vectors (3D Example) ---
 # Note: Values here are just for demonstration
-v_king   = [0.8, 0.65, 0.0]
-v_man    = [0.6, 0.4,  0.0]
-v_woman  = [0.7, 0.3,  0.2]
-v_queen  = [0.9, 0.55, 0.2]
+v_king = [0.8, 0.65, 0.0]
+v_man = [0.6, 0.4, 0.0]
+v_woman = [0.7, 0.3, 0.2]
+v_queen = [0.9, 0.55, 0.2]
 
 # =====================================================
 # PART 1.1: King - Man + Woman Analogy (From Scratch)
 # =====================================================
+
 
 def vector_add(u, v):
     """Add two vectors u and v (lists)."""
@@ -31,6 +32,7 @@ def vector_add(u, v):
         i += 1
     return result
 
+
 def vector_sub(u, v):
     """Subtract vector v from u (lists)."""
     # TODO: Implement element-wise subtraction
@@ -42,6 +44,7 @@ def vector_sub(u, v):
         result.append(u[i] - v[i])
         i += 1
     return result
+
 
 # --- Analogy computation ---
 # v_result = king - man + woman
@@ -57,6 +60,7 @@ print("Analogy result (from scratch):", v_result)
 # PART 1.2: Cosine Similarity (From Scratch)
 # =====================================================
 
+
 def dot_product(u, v):
     """Compute the dot product of u and v."""
     # TODO: Implement dot product using a loop
@@ -71,6 +75,7 @@ def dot_product(u, v):
         i += 1
     return result
 
+
 def norm(u):
     """Compute the Euclidean norm (L2 norm) of vector u."""
     # TODO: Implement norm from scratch
@@ -80,7 +85,8 @@ def norm(u):
     while i < len(u):
         sum_of_squares += u[i] ** 2
         i += 1
-    return sum_of_squares ** 0.5    # or math module could be used ---- math.sqrt()
+    return sum_of_squares**0.5  # or math module could be used ---- math.sqrt()
+
 
 def cosine_similarity(u, v):
     """Compute cosine similarity between u and v."""
@@ -90,10 +96,15 @@ def cosine_similarity(u, v):
 
     # In case either vector has zero norm, we should handle that to avoid division by zero.
     # We can return directly with ternary operator.
-    return dot_product(u, v) / (norm(u) * norm(v)) if norm(u) != 0 and norm(v) != 0 else 0
+    return (
+        dot_product(u, v) / (norm(u) * norm(v)) if norm(u) != 0 and norm(v) != 0 else 0
+    )
+
 
 # --- Cosine similarity between analogy result & queen ---
-similarity_scratch = cosine_similarity(v_result, v_queen)  # TODO: Compute using your function
+similarity_scratch = cosine_similarity(
+    v_result, v_queen
+)  # TODO: Compute using your function
 print("Cosine similarity (from scratch):", similarity_scratch)
 
 
@@ -102,10 +113,10 @@ print("Cosine similarity (from scratch):", similarity_scratch)
 # =====================================================
 
 # Convert to numpy arrays
-np_king   = np.array(v_king)
-np_man    = np.array(v_man)
-np_woman  = np.array(v_woman)
-np_queen  = np.array(v_queen)
+np_king = np.array(v_king)
+np_man = np.array(v_man)
+np_woman = np.array(v_woman)
+np_queen = np.array(v_queen)
 
 # --- Analogy computation with NumPy ---
 np_result = np_king - np_man + np_woman  # TODO: Implement with NumPy
@@ -115,10 +126,14 @@ print("Analogy result (NumPy):", np_result)
 # TODO: Use np.dot() and np.linalg.norm()
 
 # We can return directly with ternary operator, handling zero in denominator.
-similarity_numpy = np.dot(np_result, np_queen) / (np.linalg.norm(np_result) * np.linalg.norm(np_queen))\
-                    if np.linalg.norm(np_result) != 0 and np.linalg.norm(np_queen) != 0 else 0
+similarity_numpy = (
+    np.dot(np_result, np_queen) / (np.linalg.norm(np_result) * np.linalg.norm(np_queen))
+    if np.linalg.norm(np_result) != 0 and np.linalg.norm(np_queen) != 0
+    else 0
+)
 
 # or, we can do function (no difference, just readability-wise)
+
 
 def cosine_similarity_using_numpy(u, v):
     """Compute cosine similarity between u and v using NumPy."""
@@ -128,8 +143,10 @@ def cosine_similarity_using_numpy(u, v):
     zero_flag = norm_u == 0 or norm_v == 0
     if zero_flag:
         return 0
-    else:   # In else part, we could have returned directly, but for clarity and readability, we can use variables.
+    else:  # In else part, we could have returned directly, but for clarity and readability, we can use variables.
         return dot_product / (norm_u * norm_v)
+
+
 print("Cosine similarity (NumPy):", similarity_numpy)
 
 
@@ -137,7 +154,7 @@ print("Cosine similarity (NumPy):", similarity_numpy)
 # Verification
 # =====================================================
 # TODO: Print comparison of scratch vs NumPy results
-print("\n"*3, "--- Verification Results NumPy vs. Python ---")
+print("\n" * 3, "--- Verification Results NumPy vs. Python ---")
 print(f"From scratch result: {v_result}")
 print(f"NumPy result: {np_result}")
 print(f"From scratch cosine similarity: {similarity_scratch:.6f}")

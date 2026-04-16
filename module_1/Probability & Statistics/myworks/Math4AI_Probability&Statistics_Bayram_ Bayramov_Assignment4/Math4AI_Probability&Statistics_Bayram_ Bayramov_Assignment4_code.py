@@ -14,13 +14,13 @@ from typing import Dict, Tuple, Any
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 # Output directory
 OUT_DIR = Path.cwd()
 
 # ================================================================
 # Task 4.1: Beta-Binomial Model
 # ================================================================
+
 
 def _log_beta(a: float, b: float) -> float:
     """log(Beta(a,b)) using log-gamma for numerical stability."""
@@ -44,6 +44,7 @@ class BetaBinomialModel:
     """
     Maintains a Beta(alpha, beta) belief about theta = P(Heads).
     """
+
     alpha: float
     beta: float
 
@@ -78,7 +79,11 @@ class BetaBinomialModel:
         where B is the Beta function.
         """
         # Using the formula: P(k|n) = C(n,k) * B(α+k, β+n-k) / B(α, β)
-        log_combination = math.lgamma(n_future + 1) - math.lgamma(k_future + 1) - math.lgamma(n_future - k_future + 1)
+        log_combination = (
+            math.lgamma(n_future + 1)
+            - math.lgamma(k_future + 1)
+            - math.lgamma(n_future - k_future + 1)
+        )
         log_beta_num = _log_beta(self.alpha + k_future, self.beta + n_future - k_future)
         log_beta_denom = _log_beta(self.alpha, self.beta)
 
@@ -86,7 +91,9 @@ class BetaBinomialModel:
         return math.exp(log_prob)
 
 
-def simulate_coin_flips(theta_true: float, n_flips: int, rng: np.random.Generator) -> Tuple[int, int]:
+def simulate_coin_flips(
+    theta_true: float, n_flips: int, rng: np.random.Generator
+) -> Tuple[int, int]:
     """Return (heads, tails) from n_flips Bernoulli trials."""
     flips = rng.random(n_flips) < theta_true
     heads = int(np.sum(flips))
@@ -94,7 +101,9 @@ def simulate_coin_flips(theta_true: float, n_flips: int, rng: np.random.Generato
     return heads, tails
 
 
-def plot_belief_evolution(thetas: np.ndarray, snapshots: Dict[str, Tuple[float, float]], filename: str) -> None:
+def plot_belief_evolution(
+    thetas: np.ndarray, snapshots: Dict[str, Tuple[float, float]], filename: str
+) -> None:
     """
     Plot PDFs for (alpha,beta) snapshots. 'snapshots' maps label -> (alpha,beta).
     """
@@ -104,20 +113,22 @@ def plot_belief_evolution(thetas: np.ndarray, snapshots: Dict[str, Tuple[float, 
     colors = plt.cm.viridis(np.linspace(0, 0.9, len(snapshots)))
 
     for i, (label, (a, b)) in enumerate(snapshots.items()):
-        plt.plot(thetas, beta_pdf(thetas, a, b), label=label, color=colors[i], linewidth=2)
+        plt.plot(
+            thetas, beta_pdf(thetas, a, b), label=label, color=colors[i], linewidth=2
+        )
 
     # Add vertical line at true theta value
-    plt.axvline(x=0.8, color='red', linestyle='--', alpha=0.7, label=f'True θ = 0.8')
+    plt.axvline(x=0.8, color="red", linestyle="--", alpha=0.7, label=f"True θ = 0.8")
 
     plt.xlabel(r"$\theta$ (Probability of Heads)", fontsize=12)
     plt.ylabel("Density", fontsize=12)
     plt.title("Bayesian Update: Beta Prior -> Beta Posterior", fontsize=14)
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
 
     # Save the plot
-    plt.savefig(filename, dpi=200, bbox_inches='tight')
+    plt.savefig(filename, dpi=200, bbox_inches="tight")
     print(f"Plot saved as: {filename}")
 
     # Display the plot
@@ -129,7 +140,10 @@ def plot_belief_evolution(thetas: np.ndarray, snapshots: Dict[str, Tuple[float, 
 # Task 4.2: MLE vs MAP
 # ================================================================
 
-def compute_estimates(heads: int, tails: int, alpha_prior: float, beta_prior: float) -> Dict[str, float]:
+
+def compute_estimates(
+    heads: int, tails: int, alpha_prior: float, beta_prior: float
+) -> Dict[str, float]:
     """
     Return MLE and MAP estimates.
     """
@@ -146,12 +160,11 @@ def compute_estimates(heads: int, tails: int, alpha_prior: float, beta_prior: fl
         map_estimate = numerator / denominator
     else:
         # Fall back to posterior mean
-        map_estimate = (alpha_prior + heads) / (alpha_prior + beta_prior + heads + tails)
+        map_estimate = (alpha_prior + heads) / (
+            alpha_prior + beta_prior + heads + tails
+        )
 
-    return {
-        'mle': mle,
-        'map': map_estimate
-    }
+    return {"mle": mle, "map": map_estimate}
 
 
 # ================================================================
@@ -204,7 +217,11 @@ class SimpleBayesNet:
         for r in [False, True]:
             for s in [False, True]:
                 for w in [False, True]:
-                    prob = self.p_r(r) * self.p_s_given_r(s, r) * self.p_w_given_s_r(w, s, r)
+                    prob = (
+                        self.p_r(r)
+                        * self.p_s_given_r(s, r)
+                        * self.p_w_given_s_r(w, s, r)
+                    )
                     self.joint[(r, s, w)] = prob
 
         # Verify probabilities sum to 1
@@ -218,7 +235,7 @@ class SimpleBayesNet:
         Compute P(query_var=True | evidence).
         """
         # Map variable names to indices in the assignment tuple
-        var_to_idx = {'R': 0, 'S': 1, 'W': 2}
+        var_to_idx = {"R": 0, "S": 1, "W": 2}
 
         # Get the index of the query variable
         query_idx = var_to_idx[query_var]
@@ -257,6 +274,7 @@ class SimpleBayesNet:
 # Main (runs all tasks and produces required outputs)
 # ================================================================
 
+
 def main() -> None:
     print("=" * 60)
     print("Assignment 4: Bayesian Inference & Networks")
@@ -285,8 +303,12 @@ def main() -> None:
 
         snapshots[f"Posterior ({50*step} flips)"] = (model.alpha, model.beta)
 
-    plot_belief_evolution(thetas, snapshots, filename=str(OUT_DIR / "bayesian_update.png"))
-    print(f"Final posterior alpha={model.alpha:.1f}, beta={model.beta:.1f}, mean={model.mean():.4f}, MAP={model.map():.4f}")
+    plot_belief_evolution(
+        thetas, snapshots, filename=str(OUT_DIR / "bayesian_update.png")
+    )
+    print(
+        f"Final posterior alpha={model.alpha:.1f}, beta={model.beta:.1f}, mean={model.mean():.4f}, MAP={model.map():.4f}"
+    )
     print(f"Total heads={total_heads}, total tails={total_tails}")
 
     # ----------------------------
@@ -343,12 +365,12 @@ def main() -> None:
     # Plot predictive distribution
     plt.figure(figsize=(10, 6))
     k_values = list(range(11))
-    plt.bar(k_values, predictive_probs, alpha=0.7, color='skyblue', edgecolor='navy')
+    plt.bar(k_values, predictive_probs, alpha=0.7, color="skyblue", edgecolor="navy")
     plt.xlabel("Number of Heads (k)", fontsize=12)
     plt.ylabel("Probability", fontsize=12)
     plt.title("Posterior Predictive Distribution (after 500 flips)", fontsize=14)
     plt.xticks(k_values)
-    plt.grid(True, alpha=0.3, axis='y')
+    plt.grid(True, alpha=0.3, axis="y")
     plt.tight_layout()
 
     pred_plot_path = OUT_DIR / "posterior_predictive.png"
@@ -359,7 +381,7 @@ def main() -> None:
 
     # Compare with MLE plug-in
     mle_theta = total_heads / (total_heads + total_tails)
-    mle_pred_prob = math.comb(10, 7) * (mle_theta**7) * ((1-mle_theta)**3)
+    mle_pred_prob = math.comb(10, 7) * (mle_theta**7) * ((1 - mle_theta) ** 3)
     print(f"\nComparison with MLE plug-in (θ={mle_theta:.4f}):")
     print(f"  MLE plug-in: P(K=7) = {mle_pred_prob:.6f}")
     print(f"  Bayesian:    P(K=7) = {pred_prob:.6f}")

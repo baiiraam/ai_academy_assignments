@@ -7,10 +7,10 @@
 import numpy as np
 import sympy as sp
 
-
 # ====================================================================
 # --- Helper Function for Pretty Printing ---
 # ====================================================================
+
 
 def print_result(problem, description, value):
     """
@@ -36,6 +36,7 @@ def print_result(problem, description, value):
 # --------------------------------------------------------------------
 # Problem 1.1: Approximating Limits
 # --------------------------------------------------------------------
+
 
 def approximate_limit(f, a):
     """
@@ -76,7 +77,6 @@ if __name__ == "__main__":
     print("Math4AI: Assignment 1 Verification")
     print("=====================================================")
 
-
     # --- Problem 1.1 Verification ---
 
     # 1. Define the function for the famous limit: sin(x) / x
@@ -87,7 +87,6 @@ if __name__ == "__main__":
         if np.abs(x) < 1e-15:
             return 1.0  # Known limit: sin(x)/x → 1 as x → 0
         return np.sin(x) / x
-
 
     # 2. Set the point 'a' to approach
     a_val = 0.0
@@ -100,7 +99,7 @@ if __name__ == "__main__":
 
     # TODO 1:
     # 1. Define 'x' as a symbolic variable using sp.symbols().
-    x = sp.symbols('x')
+    x = sp.symbols("x")
 
     # 2. Define the symbolic function f_sym = sp.sin(x) / x.
     f_sym = sp.sin(x) / x

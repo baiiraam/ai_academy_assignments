@@ -4,6 +4,7 @@
 import numpy as np
 from scipy.linalg import lu as scipy_lu  # Used for verification
 
+
 # --- Helper Function for Pretty Printing ---
 def print_matrix(name, m):
     """
@@ -19,19 +20,17 @@ def print_matrix(name, m):
         print(m)
     print("-" * 30)
 
+
 # --- Problem Setup ---
 # The matrix A for this assignment
-A = np.array([
-    [2., 1., 3.],
-    [4., 4., 7.],
-    [2., 5., 9.]
-])
+A = np.array([[2.0, 1.0, 3.0], [4.0, 4.0, 7.0], [2.0, 5.0, 9.0]])
 
 print_matrix("Original Matrix A", A)
 
 # ====================================================================
 # Part 3.1: Matrix Inverse via Gauss-Jordan Elimination
 # ====================================================================
+
 
 def invert_matrix(A):
     """
@@ -110,15 +109,17 @@ def invert_matrix(A):
         print("Warning: Left side is not identity matrix. Inverse may be incorrect.")
         return inverse_A
 
+
 # --- Calling the function for Part 3.1 ---
 print("--- Part 3.1: Matrix Inverse from Scratch ---")
-A_inv_scratch = invert_matrix(A.copy()) # Use a copy to keep original A intact
+A_inv_scratch = invert_matrix(A.copy())  # Use a copy to keep original A intact
 print_matrix("Inverse A (from scratch)", A_inv_scratch)
 
 
 # ====================================================================
 # Part 3.2: LU Decomposition from Scratch
 # ====================================================================
+
 
 def lu_decomposition(A):
     """
@@ -175,6 +176,7 @@ def lu_decomposition(A):
             L[j, i] = (A[j, i] - sum_val) / U[i, i]
 
     return L, U
+
 
 # --- Calling the function for Part 3.2 ---
 print("--- Part 3.2: LU Decomposition from Scratch ---")

@@ -6,13 +6,14 @@ Completed Code
 
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns # For Heatmap
+import seaborn as sns  # For Heatmap
 
 np.random.seed(42)
 
 # ==========================================
 # 1. Law of Large Numbers (Geometric Dist)
 # ==========================================
+
 
 class MomentEstimator:
     @staticmethod
@@ -22,7 +23,7 @@ class MomentEstimator:
         """
         # Implement formulas for Mean (1/p) and Variance ((1-p)/p^2)
         mu = 1.0 / p
-        var = (1 - p) / (p ** 2)
+        var = (1 - p) / (p**2)
 
         return mu, var
 
@@ -38,6 +39,7 @@ class MomentEstimator:
         running_means = cumsum / indices
 
         return running_means
+
 
 def run_section_1():
     print("--- Section 1: Law of Large Numbers ---")
@@ -62,14 +64,14 @@ def run_section_1():
     # 4. Error Analysis
     ns = np.arange(1, N + 1)
     errors = np.abs(running_means - mu_theory)
-    expected_error_scale = np.sqrt(var_theory) / np.sqrt(ns) # SE = sigma / sqrt(n)
+    expected_error_scale = np.sqrt(var_theory) / np.sqrt(ns)  # SE = sigma / sqrt(n)
 
     # Plotting
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
     # Plot A: Convergence
-    ax1.plot(ns, running_means, label='Running Sample Mean', color='blue', alpha=0.8)
-    ax1.axhline(mu_theory, color='red', linestyle='--', label='Theoretical Mean')
+    ax1.plot(ns, running_means, label="Running Sample Mean", color="blue", alpha=0.8)
+    ax1.axhline(mu_theory, color="red", linestyle="--", label="Theoretical Mean")
     ax1.set_title("LLN Convergence: Geometric(p=0.2)")
     ax1.set_xlabel("Sample Size (N)")
     ax1.set_ylabel("Mean Value")
@@ -77,23 +79,25 @@ def run_section_1():
     ax1.grid(True, alpha=0.3)
 
     # Plot B: Error Rates (Log-Log)
-    ax2.loglog(ns, errors, label='Absolute Error', alpha=0.5)
-    ax2.loglog(ns, expected_error_scale, 'r--', label=r'Theory $1/\sqrt{N}$')
+    ax2.loglog(ns, errors, label="Absolute Error", alpha=0.5)
+    ax2.loglog(ns, expected_error_scale, "r--", label=r"Theory $1/\sqrt{N}$")
     ax2.set_title("Standard Error Decay")
     ax2.set_xlabel("Sample Size (N)")
     ax2.set_ylabel("Absolute Error")
     ax2.legend()
-    ax2.grid(True, alpha=0.3, which='both')
+    ax2.grid(True, alpha=0.3, which="both")
 
     plt.tight_layout()
-    plt.savefig("lln_convergence.png", dpi=300, bbox_inches='tight')
+    plt.savefig("lln_convergence.png", dpi=300, bbox_inches="tight")
     plt.show()
 
     return mu_theory, var_theory, final_mean
 
+
 # ==========================================
 # 2. Higher-Order Moments (Robustness)
 # ==========================================
+
 
 def compute_central_moment(data, k):
     """
@@ -107,9 +111,10 @@ def compute_central_moment(data, k):
     z = (data - mean) / std
 
     # Compute mean of z^k
-    moment = np.mean(z ** k)
+    moment = np.mean(z**k)
 
     return moment
+
 
 def run_section_2():
     print("\n--- Section 2: Skewness & Kurtosis ---")
@@ -137,9 +142,11 @@ def run_section_2():
 
     return skew_a, kurt_a, skew_b, kurt_b
 
+
 # ==========================================
 # 3. Covariance & Matrix Algebra
 # ==========================================
+
 
 class MultivariateEstimator:
     @staticmethod
@@ -179,6 +186,7 @@ class MultivariateEstimator:
 
         return Corr
 
+
 def run_section_3():
     print("\n--- Section 3: Multivariate Analysis ---")
 
@@ -206,14 +214,22 @@ def run_section_3():
 
     # 3. Heatmap
     plt.figure(figsize=(8, 6))
-    sns.heatmap(Corr, annot=True, cmap='coolwarm', vmin=-1, vmax=1,
-                xticklabels=['X1', 'X2', 'X3'], yticklabels=['X1', 'X2', 'X3'])
+    sns.heatmap(
+        Corr,
+        annot=True,
+        cmap="coolwarm",
+        vmin=-1,
+        vmax=1,
+        xticklabels=["X1", "X2", "X3"],
+        yticklabels=["X1", "X2", "X3"],
+    )
     plt.title("Correlation Matrix Heatmap")
     plt.tight_layout()
-    plt.savefig("correlation_heatmap.png", dpi=300, bbox_inches='tight')
+    plt.savefig("correlation_heatmap.png", dpi=300, bbox_inches="tight")
     plt.show()
 
     return Sigma, Corr
+
 
 if __name__ == "__main__":
     print("Math4AI: Probability & Statistics - Assignment 3")
