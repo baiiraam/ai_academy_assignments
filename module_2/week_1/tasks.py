@@ -4,7 +4,7 @@ Tasks and my implementations for week 1 of module_2
 
 import math
 
-def calculate_gravitational_force(m1=1, m2=1, r=1, G=6.67430e-11):
+def calculate_gravitational_force(m1: float=1, m2: float=1, r: float=1, G: float=6.67430e-11):
     '''
     Returns the gravitational force between  given masses:
     F = G * m1 * m2 / r^2
@@ -166,7 +166,7 @@ print(caesar_cipher("HELLO", 21))
 
 
 
-def multiples_of_n():
+def multiples_of_n_1():
     '''
     Returns a list of multiples of n less than 100 for n in [2, 3, 7, 9]
     '''
@@ -174,7 +174,7 @@ def multiples_of_n():
         ll = [n*i for i in range(51) if n * i < 100]
         print(f'n={n} --> {ll}')
 
-multiples_of_n()
+multiples_of_n_1()
 
 
 
