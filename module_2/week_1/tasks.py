@@ -1,11 +1,14 @@
-'''
+"""
 Tasks and my implementations for week 1 of module_2
-'''
+"""
 
 import math
 
-def calculate_gravitational_force(m1: float=1, m2: float=1, r: float=1, G: float=6.67430e-11):
-    '''
+
+def calculate_gravitational_force(
+    m1: float = 1, m2: float = 1, r: float = 1, G: float = 6.67430e-11
+):
+    """
     Returns the gravitational force between  given masses:
     F = G * m1 * m2 / r^2
 
@@ -14,22 +17,24 @@ def calculate_gravitational_force(m1: float=1, m2: float=1, r: float=1, G: float
     m2: mass of the second object,
     r: distance between the centers of the two objects,
     G: gravitational constant (default value for Earth is 6.67430e-11)
-    '''
+    """
     if r <= 0:
         raise ValueError("Distance cannot be zero or negative")
     F = G * m1 * m2 / r**2
     rounded_F = round(F, 3)
     return rounded_F
 
+
 m1 = 1.989e30
 m2 = 5.972e24
 r = 14959787e04
-print(f'F for m1={m1}, m2={m2}, and r={r} is:\n {calculate_gravitational_force(m1, m2)}')
-
+print(
+    f"F for m1={m1}, m2={m2}, and r={r} is:\n {calculate_gravitational_force(m1, m2)}"
+)
 
 
 def ideal_gas_law(P=None, V=None, T=None, n=6.022e23, R=8.314):
-    '''
+    """
     Returns the missing variable in the ideal gas equation:
     PV = nRT
 
@@ -39,7 +44,7 @@ def ideal_gas_law(P=None, V=None, T=None, n=6.022e23, R=8.314):
     T: temperature,
     n: number of moles (default value is Avogadro),
     R: ideal gas constant (default value is 8.314)
-    '''
+    """
     # P is None
     if P is None:
         if V is None or T is None:
@@ -55,10 +60,10 @@ def ideal_gas_law(P=None, V=None, T=None, n=6.022e23, R=8.314):
         raise ValueError("Only one variable can be None")
     return P * V / (n * R)
 
+
 V = 0.25
 T = 300
-print(f'P for V={V} and T={T} is:\n{ideal_gas_law(V=V, T=T)}')
-
+print(f"P for V={V} and T={T} is:\n{ideal_gas_law(V=V, T=T)}")
 
 
 # All numbers could have been rounded, but I think it is ok for now
@@ -66,7 +71,7 @@ print(f'P for V={V} and T={T} is:\n{ideal_gas_law(V=V, T=T)}')
 
 # math.pi = pi_value, math.exp(1) = e_value
 def calculate_pdf(mu=0, sigma=1, x=0):
-    '''
+    """
     Returns the pdf value for a gaussian:
     1 over sigma times sqrt of 2 pi times e power -1/2 times ((x-mu) over sigma) squared
 
@@ -74,7 +79,7 @@ def calculate_pdf(mu=0, sigma=1, x=0):
     mu: mean,
     sigma: standard deviation,
     x: value to calculate pdf
-    '''
+    """
     if sigma <= 0:
         raise ValueError("Standard deviation cannot be negative or zero")
     coeff = 1 / sigma * math.sqrt(2 * math.pi)
@@ -82,9 +87,8 @@ def calculate_pdf(mu=0, sigma=1, x=0):
     return coeff * exponent
 
 
-
 def credit_card_application():
-    '''
+    """
     Returns a decision (Approve, Deny) based on the following criteria:
     ...
 
@@ -92,7 +96,7 @@ def credit_card_application():
     age: age,
     credit_rating_is_excellent: credit rating is excellent or not (True/False)
     is_student: is a student or not (True/False)
-    '''
+    """
     age = int(input("Enter age: "))
     citizen_group = None
     if age < 24:
@@ -103,19 +107,21 @@ def credit_card_application():
     elif 24 <= age < 60:
         return "Approve"
 
-    credit_rating_is_excellent = input("Is your credit rating excellent? (y/n): ").lower() == "y"
+    credit_rating_is_excellent = (
+        input("Is your credit rating excellent? (y/n): ").lower() == "y"
+    )
     if credit_rating_is_excellent:
         return "Approve"
     return "Deny"
 
+
 print(credit_card_application())
 
 
-
 def func():
-    '''
+    """
     Answer the questions with (y/n)
-    '''
+    """
     print("Answer the following questions with (y/n):")
     if input("Does the thing work?:\n").lower() == "y":
         print("Don't mess with it!")
@@ -141,50 +147,50 @@ def func():
                 print("Throw it away!")
                 print("No problem")
 
+
 func()
 
 
-
 def caesar_cipher(textt="ABCDE", shiftt=12):
-    '''
+    """
     Returns the caesar cipher of the given text and shift.
 
     Parameters:
     textt: text,
     shiftt: shift
-    '''
+    """
     res = []
     for char in textt:
         if char.isalpha() and char.isupper():
             encrypted_char = ord(char) + shiftt
-            if encrypted_char > ord('Z'):
+            if encrypted_char > ord("Z"):
                 encrypted_char -= 26
             res.append(chr(encrypted_char))
-    return ''.join(res)
+    return "".join(res)
+
 
 print(caesar_cipher("HELLO", 21))
 
 
-
 def multiples_of_n_1():
-    '''
+    """
     Returns a list of multiples of n less than 100 for n in [2, 3, 7, 9]
-    '''
+    """
     for n in [2, 3, 7, 9]:
-        ll = [n*i for i in range(51) if n * i < 100]
-        print(f'n={n} --> {ll}')
+        ll = [n * i for i in range(51) if n * i < 100]
+        print(f"n={n} --> {ll}")
+
 
 multiples_of_n_1()
 
 
-
 def terms_of_a_series(N=5):
-    '''
+    """
     Returns the first N terms of defined series and cumulative sum.
 
     Parameters:
     N: number of items
-    '''
+    """
     res = []
     cumSum = 0
     for i in range(N + 1):
@@ -193,19 +199,19 @@ def terms_of_a_series(N=5):
         cumSum += term
     return f"{res} \n {cumSum}"
 
+
 print(terms_of_a_series())
 
 
-
 def multiples_of_n(n, a=1, b=10):
-    '''
+    """
     Returns multiples of n between a and b.
 
     Parameters:
     n: number,
     a: range start,
     b: range end
-    '''
+    """
     res = []
     loww = a // n
     highh = b // n
@@ -213,5 +219,6 @@ def multiples_of_n(n, a=1, b=10):
         if a < n * i <= b:
             res.append(n * i)
     return res
+
 
 print(multiples_of_n(3, 1, 30))
