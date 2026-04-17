@@ -15,3 +15,5 @@ module_1/Probability & Statistics/problems
 module_1/Linear Algebra/additional_material
 module_1/Linear Algebra/slides
 module_1/Linear Algebra/tasks
+__pycache__/
+.venv/
