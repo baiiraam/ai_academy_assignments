@@ -3,6 +3,7 @@
 
 import numpy as np
 
+
 # --- Helper Functions for Pretty Printing ---
 def print_matrix(name, m):
     """Prints a matrix or vector with its name."""
@@ -12,6 +13,7 @@ def print_matrix(name, m):
         np.set_printoptions(precision=4, suppress=True)
         print(f"{name}:\n{m}")
     print("-" * 40)
+
 
 def print_eigenpairs(name, eigenvalues, eigenvectors):
     """Prints a set of eigenvalues and their corresponding eigenvectors."""
@@ -23,37 +25,33 @@ def print_eigenpairs(name, eigenvalues, eigenvectors):
 
     for i, val in enumerate(eigenvalues):
         # eigenvectors are columns in the matrix
-        vec = eigenvectors[:, i] if isinstance(eigenvectors, np.ndarray) else eigenvectors[i]
+        vec = (
+            eigenvectors[:, i]
+            if isinstance(eigenvectors, np.ndarray)
+            else eigenvectors[i]
+        )
         print(f"  Eigenvalue λ_{i+1} = {val:.4f}")
         print(f"  Eigenvector v_{i+1} =\n{vec.reshape(-1, 1)}")
     print("-" * 40)
+
 
 # ====================================================================
 # Problem Setup for All Parts
 # ====================================================================
 
 # Matrix for Part 1 and 3
-A = np.array([
-    [4., -2.],
-    [1., 1.]
-])
+A = np.array([[4.0, -2.0], [1.0, 1.0]])
 
 # Matrix for Part 2 (Diagonalizable)
-B = np.array([
-    [1., 0., 1.],
-    [0., 1., 0.],
-    [1., 0., 1.]
-])
+B = np.array([[1.0, 0.0, 1.0], [0.0, 1.0, 0.0], [1.0, 0.0, 1.0]])
 
 # Matrix for Part 2 (Not Diagonalizable / Defective)
-C = np.array([
-    [1., 1.],
-    [0., 1.]
-])
+C = np.array([[1.0, 1.0], [0.0, 1.0]])
 
 # ====================================================================
 # Prerequisite: Nullspace Function (Students must implement or reuse)
 # ====================================================================
+
 
 def find_nullspace_basis(M):
     """
@@ -120,13 +118,15 @@ def find_nullspace_basis(M):
 
     return basis_vectors
 
+
 # ====================================================================
 # PART 1: FINDING EIGENVALUES AND EIGENVECTORS
 # ====================================================================
-print("="*60)
+print("=" * 60)
 print("PART 1: FINDING EIGENVALUES AND EIGENVECTORS")
-print("="*60)
+print("=" * 60)
 print_matrix("Matrix A for Part 1", A)
+
 
 # --- 1.1: Eigenvalues from the Characteristic Equation ---
 def find_eigenvalues_2x2(A):
@@ -155,6 +155,7 @@ def find_eigenvalues_2x2(A):
         lambda1 = complex(real_part, imag_part)
         lambda2 = complex(real_part, -imag_part)
         return [lambda1, lambda2]
+
 
 # --- 1.2: Eigenvectors from the Nullspace ---
 def find_eigenvectors(A, eigenvalues):
@@ -208,9 +209,10 @@ print_eigenpairs("Eigenpairs (from NumPy)", eigvals_np, eigvecs_np)
 # ====================================================================
 # PART 2: DIAGONALIZATION
 # ====================================================================
-print("\n" + "="*60)
+print("\n" + "=" * 60)
 print("PART 2: DIAGONALIZATION")
-print("="*60)
+print("=" * 60)
+
 
 def diagonalize(A):
     """
@@ -233,6 +235,7 @@ def diagonalize(A):
         return S, Lambda, S_inv
     else:
         return None, None, None
+
 
 # --- 2.2: Verification and A Defective Case ---
 print("--- 2.2: Verification ---")
@@ -261,9 +264,10 @@ else:
 # ====================================================================
 # PART 3: THE POWER METHOD
 # ====================================================================
-print("\n" + "="*60)
+print("\n" + "=" * 60)
 print("PART 3: THE POWER METHOD")
-print("="*60)
+print("=" * 60)
+
 
 # --- 3.1: Implement the Power Method ---
 def power_iteration(A, num_iterations: int):
@@ -286,6 +290,7 @@ def power_iteration(A, num_iterations: int):
 
     return b_k
 
+
 # --- 3.2: Estimating the Eigenvalue with the Rayleigh Quotient ---
 print("--- 3.1 & 3.2: Finding Dominant Eigenpair ---")
 dominant_eigenvector = power_iteration(A, 100)
@@ -296,8 +301,12 @@ if dominant_eigenvector is not None:
     numerator = v.T @ A @ v
     denominator = v.T @ v
     dominant_eigenvalue = numerator / denominator
-    print(f"Estimated Dominant Eigenvalue (from Rayleigh Quotient): {dominant_eigenvalue:.4f}")
-    print_matrix("Estimated Dominant Eigenvector (from Power Iteration)", v.reshape(-1, 1))
+    print(
+        f"Estimated Dominant Eigenvalue (from Rayleigh Quotient): {dominant_eigenvalue:.4f}"
+    )
+    print_matrix(
+        "Estimated Dominant Eigenvector (from Power Iteration)", v.reshape(-1, 1)
+    )
 else:
     print("Power iteration not implemented.")
 

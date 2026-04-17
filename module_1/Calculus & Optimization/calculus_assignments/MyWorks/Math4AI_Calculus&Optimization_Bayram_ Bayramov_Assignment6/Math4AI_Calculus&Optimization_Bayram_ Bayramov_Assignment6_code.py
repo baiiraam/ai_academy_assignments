@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 # --- Helper Functions ---
 # ====================================================================
 
+
 def backtracking_line_search(f, x, p, grad, alpha0=1.0, c=1e-4, tau=0.5, max_steps=25):
     """Backtracking line search with Armijo condition."""
     alpha = alpha0
@@ -24,9 +25,11 @@ def backtracking_line_search(f, x, p, grad, alpha0=1.0, c=1e-4, tau=0.5, max_ste
 
     return alpha
 
+
 # ====================================================================
 # Problem 3.2: The BFGS Algorithm
 # ====================================================================
+
 
 def bfgs_algorithm(f, f_grad, x0, max_iter=100, tol=1e-6):
     """
@@ -61,7 +64,9 @@ def bfgs_algorithm(f, f_grad, x0, max_iter=100, tol=1e-6):
         # Skip update if denominator is too small
         if y_k.T @ s_k > 1e-8:
             I = np.eye(n)
-            H_k = (I - rho_k * np.outer(s_k, y_k)) @ H_k @ (I - rho_k * np.outer(y_k, s_k)) + rho_k * np.outer(s_k, s_k)
+            H_k = (I - rho_k * np.outer(s_k, y_k)) @ H_k @ (
+                I - rho_k * np.outer(y_k, s_k)
+            ) + rho_k * np.outer(s_k, s_k)
 
         # Prepare for next iteration
         x_k = x_k_plus_1
@@ -70,9 +75,11 @@ def bfgs_algorithm(f, f_grad, x0, max_iter=100, tol=1e-6):
 
     return x_k, path_history
 
+
 # ====================================================================
 # Problem 3.3: Conjugate Gradient Method (Fletcher-Reeves)
 # ====================================================================
+
 
 def conjugate_gradient(f, f_grad, x0, max_iter=100, tol=1e-6):
     """
@@ -115,17 +122,20 @@ def conjugate_gradient(f, f_grad, x0, max_iter=100, tol=1e-6):
 
     return x_k, path_history
 
+
 # ====================================================================
 # Problem 3.4: Trust-Region Visualization
 # ====================================================================
+
 
 def plot_trust_region_concept():
     """
     Create a visualization of the trust-region concept.
     """
+
     # Simple quadratic function for demonstration
     def f(x, y):
-        return x**2 + 10*y**2
+        return x**2 + 10 * y**2
 
     # Create grid
     x = np.linspace(-2, 2, 100)
@@ -141,29 +151,55 @@ def plot_trust_region_concept():
 
     # Contour plot
     contour_levels = np.linspace(0, 5, 20)
-    plt.contour(X, Y, Z, levels=contour_levels, colors='gray', alpha=0.6)
+    plt.contour(X, Y, Z, levels=contour_levels, colors="gray", alpha=0.6)
 
     # Trust region circle
-    circle = plt.Circle((x_current[0], x_current[1]), delta,
-                       color='red', fill=False, linewidth=3,
-                       label=f'Trust Region (Δ={delta})')
+    circle = plt.Circle(
+        (x_current[0], x_current[1]),
+        delta,
+        color="red",
+        fill=False,
+        linewidth=3,
+        label=f"Trust Region (Δ={delta})",
+    )
     plt.gca().add_patch(circle)
 
     # Current point
-    plt.scatter(x_current[0], x_current[1], color='red', s=100,
-                marker='o', label='Current Point')
+    plt.scatter(
+        x_current[0],
+        x_current[1],
+        color="red",
+        s=100,
+        marker="o",
+        label="Current Point",
+    )
 
     # Newton step (would be outside trust region)
     newton_step = np.array([-0.9, -0.6])
     newton_point = x_current + newton_step
 
     # Plot Newton step
-    plt.arrow(x_current[0], x_current[1], newton_step[0], newton_step[1],
-              head_width=0.05, head_length=0.1, fc='blue', ec='blue',
-              linewidth=2, label='Unconstrained Newton Step')
+    plt.arrow(
+        x_current[0],
+        x_current[1],
+        newton_step[0],
+        newton_step[1],
+        head_width=0.05,
+        head_length=0.1,
+        fc="blue",
+        ec="blue",
+        linewidth=2,
+        label="Unconstrained Newton Step",
+    )
 
-    plt.scatter(newton_point[0], newton_point[1], color='blue', s=100,
-                marker='^', label='Newton Point')
+    plt.scatter(
+        newton_point[0],
+        newton_point[1],
+        color="blue",
+        s=100,
+        marker="^",
+        label="Newton Point",
+    )
 
     # Scaled step (within trust region)
     newton_norm = np.linalg.norm(newton_step)
@@ -171,37 +207,56 @@ def plot_trust_region_concept():
         scaled_step = (delta / newton_norm) * newton_step
         trust_point = x_current + scaled_step
 
-        plt.arrow(x_current[0], x_current[1], scaled_step[0], scaled_step[1],
-                  head_width=0.05, head_length=0.1, fc='green', ec='green',
-                  linewidth=2, linestyle='--', label='Trust Region Step')
+        plt.arrow(
+            x_current[0],
+            x_current[1],
+            scaled_step[0],
+            scaled_step[1],
+            head_width=0.05,
+            head_length=0.1,
+            fc="green",
+            ec="green",
+            linewidth=2,
+            linestyle="--",
+            label="Trust Region Step",
+        )
 
-        plt.scatter(trust_point[0], trust_point[1], color='green', s=100,
-                    marker='s', label='Trust Region Point')
+        plt.scatter(
+            trust_point[0],
+            trust_point[1],
+            color="green",
+            s=100,
+            marker="s",
+            label="Trust Region Point",
+        )
 
-    plt.xlabel('x', fontsize=12)
-    plt.ylabel('y', fontsize=12)
-    plt.title('Trust-Region Method Concept', fontsize=14)
+    plt.xlabel("x", fontsize=12)
+    plt.ylabel("y", fontsize=12)
+    plt.title("Trust-Region Method Concept", fontsize=14)
     plt.legend()
     plt.grid(True, alpha=0.3)
-    plt.axis('equal')
+    plt.axis("equal")
     plt.tight_layout()
-    plt.savefig('trust_region_plot.png', dpi=300)
+    plt.savefig("trust_region_plot.png", dpi=300)
     plt.show()
+
 
 # ====================================================================
 # --- Verification with Rosenbrock Function ---
 # ====================================================================
 
+
 def rosen(x):
     """Rosenbrock function."""
-    return (1 - x[0])**2 + 100 * (x[1] - x[0]**2)**2
+    return (1 - x[0]) ** 2 + 100 * (x[1] - x[0] ** 2) ** 2
+
 
 def rosen_grad(x):
     """Gradient of Rosenbrock function."""
-    return np.array([
-        -2*(1 - x[0]) - 400*x[0]*(x[1] - x[0]**2),
-        200*(x[1] - x[0]**2)
-    ])
+    return np.array(
+        [-2 * (1 - x[0]) - 400 * x[0] * (x[1] - x[0] ** 2), 200 * (x[1] - x[0] ** 2)]
+    )
+
 
 # ====================================================================
 # --- Main Execution ---

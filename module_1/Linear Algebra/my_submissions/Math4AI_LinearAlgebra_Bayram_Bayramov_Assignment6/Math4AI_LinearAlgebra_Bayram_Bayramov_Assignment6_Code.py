@@ -4,6 +4,7 @@
 import numpy as np
 from scipy.linalg import null_space, orth
 
+
 # --- Helper Functions for Pretty Printing ---
 def print_matrix(name, m):
     """Prints a matrix with its name."""
@@ -14,6 +15,7 @@ def print_matrix(name, m):
         print(f"{name}:\n{m}")
     print("-" * 40)
 
+
 def print_vectors(name, vecs):
     """Prints a list of basis vectors from a list of arrays or a 2D array."""
     print(f"{name}:")
@@ -23,19 +25,14 @@ def print_vectors(name, vecs):
         for i, v in enumerate(vecs):
             print(f"  Basis Vector {i+1}:\n{v.reshape(-1, 1)}")
     elif isinstance(vecs, np.ndarray) and vecs.ndim == 2:
-         for i in range(vecs.shape[1]):
-             print(f"  Basis Vector {i+1}:\n{vecs[:, i].reshape(-1, 1)}")
+        for i in range(vecs.shape[1]):
+            print(f"  Basis Vector {i+1}:\n{vecs[:, i].reshape(-1, 1)}")
     else:
         print("Unsupported format for printing vectors.")
     print("-" * 40)
 
 
-
-A1 = np.array([
-    [1., 2., 3., 5.],
-    [2., 4., 8., 12.],
-    [3., 6., 7., 13.]
-])
+A1 = np.array([[1.0, 2.0, 3.0, 5.0], [2.0, 4.0, 8.0, 12.0], [3.0, 6.0, 7.0, 13.0]])
 print_matrix("Matrix A for Part 1", A1)
 
 
@@ -86,6 +83,7 @@ def to_rref(M):
 
 # --- 5.1: Bases for the Four Subspaces ---
 
+
 def find_column_space_basis(A):
     """Basis for C(A) from pivot columns of original A."""
     # 1. Get RREF of A.
@@ -101,6 +99,7 @@ def find_column_space_basis(A):
 
     # 3. Return the corresponding columns from the *original* matrix A.
     return A[:, pivot_cols]
+
 
 def find_null_space_basis(A):
     """Basis for N(A) from special solutions."""
@@ -137,6 +136,7 @@ def find_null_space_basis(A):
 
     return basis_vectors
 
+
 def find_row_space_basis(A):
     """Basis for C(A^T) from non-zero rows of RREF of A."""
     # 1. Get RREF of A.
@@ -149,6 +149,7 @@ def find_row_space_basis(A):
             basis_vectors.append(rref_A[i])
 
     return basis_vectors
+
 
 def find_left_null_space_basis(A):
     """Basis for N(A^T) is the nullspace of A^T."""
@@ -195,7 +196,9 @@ if all(b is not None for b in [C_A_basis, N_A_basis, C_AT_basis, N_AT_basis]):
     print(f"Is theorem satisfied? {rank_A + dim_N_A == n}\n")
 
     print("Rank-Nullity Theorem for A^T:")
-    print(f"dim(C(A^T)) + dim(N(A^T)) = {dim_C_AT} + {dim_N_AT} = {dim_C_AT + dim_N_AT}")
+    print(
+        f"dim(C(A^T)) + dim(N(A^T)) = {dim_C_AT} + {dim_N_AT} = {dim_C_AT + dim_N_AT}"
+    )
     print(f"Number of rows (m) = {m}")
     print(f"Is theorem satisfied? {dim_C_AT + dim_N_AT == m}\n")
 else:
@@ -213,7 +216,11 @@ if all(b is not None for b in [C_A_basis, N_A_basis, C_AT_basis, N_AT_basis]):
         print(f"Result = {dot_product_1:.4f} (should be 0)")
 
     # Column Space _|_ Left Nullspace
-    if isinstance(C_A_basis, np.ndarray) and C_A_basis.shape[1] > 0 and len(N_AT_basis) > 0:
+    if (
+        isinstance(C_A_basis, np.ndarray)
+        and C_A_basis.shape[1] > 0
+        and len(N_AT_basis) > 0
+    ):
         col_vec_1 = C_A_basis[:, 0]
         left_null_vec_1 = N_AT_basis[0]
         dot_product_2 = np.dot(col_vec_1, left_null_vec_1)

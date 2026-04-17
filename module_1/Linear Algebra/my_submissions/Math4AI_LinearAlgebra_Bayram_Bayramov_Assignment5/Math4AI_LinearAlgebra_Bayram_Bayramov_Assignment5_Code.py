@@ -3,6 +3,7 @@
 
 import numpy as np
 
+
 # --- Helper Functions for Pretty Printing ---
 def print_vectors(name, vecs):
     """Prints a list of vectors, handling both lists of arrays and 2D arrays."""
@@ -18,6 +19,7 @@ def print_vectors(name, vecs):
         print("Unsupported format for printing vectors.")
     print("-" * 40)
 
+
 def print_matrix(name, m):
     """Prints a matrix with its name."""
     if m is None:
@@ -30,9 +32,9 @@ def print_matrix(name, m):
 
 # --- Problem Setup ---
 # A set of linearly independent vectors to be orthonormalized
-v1 = np.array([1., 1., 0.])
-v2 = np.array([1., 0., 1.])
-v3 = np.array([0., 1., 1.])
+v1 = np.array([1.0, 1.0, 0.0])
+v2 = np.array([1.0, 0.0, 1.0])
+v3 = np.array([0.0, 1.0, 1.0])
 
 input_vectors = [v1, v2, v3]
 
@@ -41,6 +43,7 @@ print_vectors("Input Vectors (Linearly Independent)", input_vectors)
 # ====================================================================
 # Part 5.1.1: Gram-Schmidt Process from Scratch
 # ====================================================================
+
 
 def gram_schmidt(vectors):
     """
@@ -138,13 +141,9 @@ else:
 
     print_matrix("Q Matrix from NumPy's np.linalg.qr(A)", Q)
     print("The columns of this Q matrix form NumPy's orthonormal basis.")
-    print("Your basis should be equivalent (individual vectors may have opposite signs).")
-
-
-
-
-
-
+    print(
+        "Your basis should be equivalent (individual vectors may have opposite signs)."
+    )
 
 
 # Task 5.2
@@ -153,6 +152,7 @@ else:
 # Starter Code Template
 
 import numpy as np
+
 
 # --- Helper Functions for Pretty Printing ---
 def print_matrix(name, m):
@@ -163,6 +163,7 @@ def print_matrix(name, m):
         np.set_printoptions(precision=4, suppress=True)
         print(f"{name}:\n{m}")
     print("-" * 40)
+
 
 def print_vectors(name, vecs):
     """Prints a list of vectors, handling both lists of arrays and 2D arrays."""
@@ -177,17 +178,15 @@ def print_vectors(name, vecs):
         print("Unsupported format for printing vectors.")
     print("-" * 40)
 
+
 # --- Setup ---
-A2 = np.array([
-    [1., 0.],
-    [1., 1.],
-    [1., 2.]
-])
-b2 = np.array([6., 0., 0.])
+A2 = np.array([[1.0, 0.0], [1.0, 1.0], [1.0, 2.0]])
+b2 = np.array([6.0, 0.0, 0.0])
 print_matrix("Matrix A for Part 5.2", A2)
 print_matrix("Vector b for Part 5.2", b2.reshape(-1, 1))
 
 # --- Reusable Helper Functions (Students must implement or reuse) ---
+
 
 def transpose_matrix(M):
     """Computes the transpose of a matrix M."""
@@ -197,6 +196,7 @@ def transpose_matrix(M):
         for j in range(cols):
             transposed[j, i] = M[i, j]
     return transposed
+
 
 def multiply_matrices(M1, M2):
     """Computes the product of two matrices M1 and M2."""
@@ -213,7 +213,9 @@ def multiply_matrices(M1, M2):
                 result[i, j] += M1[i, k] * M2[k, j]
     return result
 
+
 # --- 5.2.1: The Projection Matrix ---
+
 
 def create_projection_matrix(A):
     """
@@ -236,6 +238,7 @@ def create_projection_matrix(A):
     P = multiply_matrices(A_A_T_A_inv, A_T)
 
     return P
+
 
 print("\n--- 5.2.1: Creating the Projection Matrix ---")
 P = create_projection_matrix(A2)
@@ -268,7 +271,7 @@ if p is not None:
 
     # 3. Verification 2: e must be in the left nullspace of A
     #    This means A^T @ e should be the zero vector.
-    AT2 = A2.T # Using numpy's transpose for verification step
+    AT2 = A2.T  # Using numpy's transpose for verification step
     AT_e = AT2 @ e
     print("Verification 2: e must be in the Left Nullspace (A^T @ e = 0)")
     print_matrix("A^T @ e", AT_e.reshape(-1, 1))
@@ -277,20 +280,14 @@ else:
     print("Projected vector p not available, cannot verify.")
 
 
-
-
-
-
-
-
-
 # Task 5.3
 # Math4AI: Linear Algebra - Programming Assignment 5, Part 3 (Multi-feature)
 # Complete Implementation
 
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D # Required for 3D plotting
+from mpl_toolkits.mplot3d import Axes3D  # Required for 3D plotting
+
 
 # --- Helper Functions for Pretty Printing ---
 def print_matrix(name, m):
@@ -302,23 +299,26 @@ def print_matrix(name, m):
         print(f"{name}:\n{m}")
     print("-" * 40)
 
+
 # ====================================================================
 # PART 3: LEAST SQUARES, MODEL FITTING, AND VISUALIZATION
 # ====================================================================
 
-print("="*60)
+print("=" * 60)
 print("PART 5.3: LEAST SQUARES, MODEL FITTING, AND VISUALIZATION")
-print("="*60)
+print("=" * 60)
 
 # --- Problem Setup: Multi-feature House Price Data ---
 # We now have two features: size and age.
-np.random.seed(0) # for reproducibility
+np.random.seed(0)  # for reproducibility
 num_houses = 20
 house_sizes_sq_m = np.linspace(80, 300, num_houses)
 house_ages_years = np.linspace(1, 25, num_houses)
 
 # Prices in thousands of dollars, with a more complex trend and some noise
-true_prices = 80 + 1.8 * house_sizes_sq_m - 2.5 * house_ages_years + 0.005 * house_sizes_sq_m**2
+true_prices = (
+    80 + 1.8 * house_sizes_sq_m - 2.5 * house_ages_years + 0.005 * house_sizes_sq_m**2
+)
 noise = np.random.normal(0, 30, house_sizes_sq_m.shape)
 observed_prices = true_prices + noise
 
@@ -328,6 +328,7 @@ x2_feature_age = house_ages_years
 b_prices = observed_prices
 
 # --- Reusable Helper Functions (Students must implement or reuse) ---
+
 
 def solve_system(A, b):
     """
@@ -374,6 +375,7 @@ def solve_system(A, b):
 
     return x
 
+
 def transpose_matrix(M):
     """Computes the transpose of a matrix M."""
     rows, cols = M.shape
@@ -382,6 +384,7 @@ def transpose_matrix(M):
         for j in range(cols):
             transposed[j, i] = M[i, j]
     return transposed
+
 
 def multiply_matrices(M1, M2):
     """Computes the product of two matrices M1 and M2."""
@@ -398,9 +401,11 @@ def multiply_matrices(M1, M2):
                 result[i, j] += M1[i, k] * M2[k, j]
     return result
 
+
 # ====================================================================
 # Part 5.3.1: Least Squares Solver from Scratch
 # ====================================================================
+
 
 def least_squares(A, b):
     """
@@ -420,6 +425,7 @@ def least_squares(A, b):
     x_hat = solve_system(A_T_A, A_T_b)
 
     return x_hat
+
 
 # ====================================================================
 # Part 5.3.2: Application: Multiple Linear Housing Model
@@ -449,7 +455,9 @@ if x_hat_linear is not None:
     predicted_price = c0 + c1 * size_to_predict + c2 * age_to_predict
     print(f"\n--- Interpretation ---")
     print(f"The linear model is: price = {c0:.2f} + {c1:.2f}*size + {c2:.2f}*age")
-    print(f"Predicted price for a {size_to_predict} sq m, {age_to_predict}-year-old house: ${predicted_price:.2f}k")
+    print(
+        f"Predicted price for a {size_to_predict} sq m, {age_to_predict}-year-old house: ${predicted_price:.2f}k"
+    )
 else:
     print("\nCannot make prediction, weights not calculated.")
 
@@ -475,34 +483,57 @@ print("\n--- Part 5.3.4: Visualization and Comparison (3D Plot) ---")
 
 # Create a 3D plot
 fig = plt.figure(figsize=(12, 8))
-ax = fig.add_subplot(111, projection='3d')
+ax = fig.add_subplot(111, projection="3d")
 
 # Plot the raw data points
-ax.scatter(x1_feature_size, x2_feature_age, b_prices, c='r', marker='o', label='Actual Data Points')
+ax.scatter(
+    x1_feature_size,
+    x2_feature_age,
+    b_prices,
+    c="r",
+    marker="o",
+    label="Actual Data Points",
+)
 
 # Create a mesh grid to plot the model surfaces
 size_surf, age_surf = np.meshgrid(
     np.linspace(x1_feature_size.min(), x1_feature_size.max(), 20),
-    np.linspace(x2_feature_age.min(), x2_feature_age.max(), 20)
+    np.linspace(x2_feature_age.min(), x2_feature_age.max(), 20),
 )
 
 # Plot the linear model fit (a plane)
 if x_hat_linear is not None:
     c0_lin, c1_lin, c2_lin = x_hat_linear.flatten()
     price_surf_linear = c0_lin + c1_lin * size_surf + c2_lin * age_surf
-    ax.plot_surface(size_surf, age_surf, price_surf_linear, color='cyan', alpha=0.5, label='Linear Fit')
+    ax.plot_surface(
+        size_surf,
+        age_surf,
+        price_surf_linear,
+        color="cyan",
+        alpha=0.5,
+        label="Linear Fit",
+    )
 
 # Plot the polynomial model fit (a curved surface)
 if x_hat_poly is not None:
     c0_poly, c1_poly, c2_poly, c3_poly = x_hat_poly.flatten()
-    price_surf_poly = c0_poly + c1_poly * size_surf + c2_poly * age_surf + c3_poly * size_surf**2
-    ax.plot_surface(size_surf, age_surf, price_surf_poly, color='magenta', alpha=0.5, label='Polynomial Fit')
+    price_surf_poly = (
+        c0_poly + c1_poly * size_surf + c2_poly * age_surf + c3_poly * size_surf**2
+    )
+    ax.plot_surface(
+        size_surf,
+        age_surf,
+        price_surf_poly,
+        color="magenta",
+        alpha=0.5,
+        label="Polynomial Fit",
+    )
 
 # Final plot settings
-ax.set_xlabel('House Size (sq m)')
-ax.set_ylabel('House Age (years)')
-ax.set_zlabel('Price (in thousands of $)')
-ax.set_title('Housing Price vs. Size and Age: Model Comparison')
+ax.set_xlabel("House Size (sq m)")
+ax.set_ylabel("House Age (years)")
+ax.set_zlabel("Price (in thousands of $)")
+ax.set_title("Housing Price vs. Size and Age: Model Comparison")
 # Note: Legends for surfaces are tricky in matplotlib, so we use colors and text.
 print("Visualizing models: Cyan surface is Linear, Magenta surface is Polynomial.")
 plt.show()

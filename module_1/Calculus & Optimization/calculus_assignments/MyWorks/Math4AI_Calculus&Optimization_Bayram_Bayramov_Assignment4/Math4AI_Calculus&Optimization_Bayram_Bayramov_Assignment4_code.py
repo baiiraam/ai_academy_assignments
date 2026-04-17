@@ -14,6 +14,7 @@ import scipy.integrate as spi
 # --- Helper Function for Pretty Printing ---
 # ====================================================================
 
+
 def print_result(problem, description, value):
     """
     Helper function to print a result with its problem number and description.
@@ -25,10 +26,11 @@ def print_result(problem, description, value):
     else:
         # Set print options for numerical results
         if isinstance(value, (int, float, np.number)):
-             print(f"{value:.10f}")
+            print(f"{value:.10f}")
         else:
-             print(value)
+            print(value)
     print("-" * 40)
+
 
 # ====================================================================
 # Part 1: Multivariable Calculus
@@ -37,6 +39,7 @@ def print_result(problem, description, value):
 # --------------------------------------------------------------------
 # Problem 1.1: Partial Derivatives and the Gradient Vector
 # --------------------------------------------------------------------
+
 
 def partial_derivative(f, point, var_index, h=1e-7):
     """
@@ -69,6 +72,7 @@ def partial_derivative(f, point, var_index, h=1e-7):
 
     return partial_deriv
 
+
 def compute_gradient(f, point, h=1e-7):
     """
     Computes the full gradient vector of a multivariable function f
@@ -98,9 +102,11 @@ def compute_gradient(f, point, h=1e-7):
 
     return gradient_vector
 
+
 # --------------------------------------------------------------------
 # Problem 1.2: The Hessian Matrix
 # --------------------------------------------------------------------
+
 
 def compute_hessian(f, point, h=1e-5):
     """
@@ -139,9 +145,11 @@ def compute_hessian(f, point, h=1e-5):
 
     return hessian_matrix
 
+
 # --------------------------------------------------------------------
 # Problem 1.3: Numerical Double Integration
 # --------------------------------------------------------------------
+
 
 def double_integral(f, a, b, c, d, nx, ny):
     """
@@ -187,6 +195,7 @@ def double_integral(f, a, b, c, d, nx, ny):
 
     return integral_approx
 
+
 # ====================================================================
 # --- Main Execution & Verification ---
 # ====================================================================
@@ -203,7 +212,7 @@ if __name__ == "__main__":
     def f_1_1(point):
         x = point[0]
         y = point[1]
-        return x**2 + 2*y**2
+        return x**2 + 2 * y**2
 
     test_point_1_1 = np.array([1.0, 1.0])
 
@@ -211,7 +220,11 @@ if __name__ == "__main__":
     # 1. Call your 'compute_gradient' function.
     # 2. Print the result.
     grad_scratch = compute_gradient(f_1_1, test_point_1_1)
-    print_result("Problem 1.1", f"Gradient of x^2+2y^2 at {test_point_1_1} (Scratch)", grad_scratch)
+    print_result(
+        "Problem 1.1",
+        f"Gradient of x^2+2y^2 at {test_point_1_1} (Scratch)",
+        grad_scratch,
+    )
 
     # TODO: Plotting (for the report)
     # 1. Create a meshgrid for x and y.
@@ -220,10 +233,10 @@ if __name__ == "__main__":
     X, Y = np.meshgrid(x, y)
 
     # 2. Plot the contours of f_1_1.
-    Z = X**2 + 2*Y**2
+    Z = X**2 + 2 * Y**2
     plt.figure(figsize=(10, 8))
-    contour = plt.contour(X, Y, Z, levels=20, cmap='viridis')
-    plt.colorbar(contour, label='f(x, y) = x² + 2y²')
+    contour = plt.contour(X, Y, Z, levels=20, cmap="viridis")
+    plt.colorbar(contour, label="f(x, y) = x² + 2y²")
 
     # 3. Define a few test points.
     test_points = np.array([[-1.5, -1.5], [-1, 0], [0, 0], [1, -1], [1.5, 1.5]])
@@ -240,18 +253,26 @@ if __name__ == "__main__":
     gradients_x = [g[0] for g in gradients]
     gradients_y = [g[1] for g in gradients]
 
-    plt.quiver(test_points_x, test_points_y, gradients_x, gradients_y,
-              color='red', scale=15, width=0.005, label='Gradient vectors')
+    plt.quiver(
+        test_points_x,
+        test_points_y,
+        gradients_x,
+        gradients_y,
+        color="red",
+        scale=15,
+        width=0.005,
+        label="Gradient vectors",
+    )
 
-    plt.title('Contour Plot of f(x, y) = x² + 2y² with Gradient Vectors')
-    plt.xlabel('x')
-    plt.ylabel('y')
+    plt.title("Contour Plot of f(x, y) = x² + 2y² with Gradient Vectors")
+    plt.xlabel("x")
+    plt.ylabel("y")
     plt.grid(True, alpha=0.3)
     plt.legend()
-    plt.axis('equal')
+    plt.axis("equal")
 
     # 6. Save and show the plot.
-    plt.savefig('gradient_contour_plot.png', dpi=300, bbox_inches='tight')
+    plt.savefig("gradient_contour_plot.png", dpi=300, bbox_inches="tight")
     plt.show()
 
     print("Problem 1.1: Plot saved as 'gradient_contour_plot.png'")
@@ -274,7 +295,7 @@ if __name__ == "__main__":
 
     # TODO: SymPy Verification
     # 1. Define symbolic x, y and the symbolic function.
-    x_sym, y_sym = sympy.symbols('x y')
+    x_sym, y_sym = sympy.symbols("x y")
     f_sym = x_sym**2 - y_sym**2
 
     # 2. Use sympy.hessian() to get the symbolic Hessian.
@@ -284,9 +305,14 @@ if __name__ == "__main__":
     print_result("Problem 1.2", "Hessian of x^2-y^2 (SymPy)", hessian_sympy)
 
     # Also evaluate the symbolic Hessian at the test point
-    hessian_sympy_eval = np.array(hessian_sympy.subs({x_sym: 1.0, y_sym: 1.0})).astype(float)
-    print_result("Problem 1.2", "Hessian of x^2-y^2 at (1,1) (SymPy evaluated)", hessian_sympy_eval)
-
+    hessian_sympy_eval = np.array(hessian_sympy.subs({x_sym: 1.0, y_sym: 1.0})).astype(
+        float
+    )
+    print_result(
+        "Problem 1.2",
+        "Hessian of x^2-y^2 at (1,1) (SymPy evaluated)",
+        hessian_sympy_eval,
+    )
 
     # --- Problem 1.3 Verification ---
 
@@ -296,13 +322,15 @@ if __name__ == "__main__":
 
     # 2. Set integration parameters
     a, b = 0.0, 1.0  # x-range
-    c, d = 0.0, np.pi # y-range
+    c, d = 0.0, np.pi  # y-range
     nx, ny = 100, 100
 
     # 3. Call your 'from scratch' implementation
     # TODO: Call your 'double_integral' function.
     integral_scratch = double_integral(f_1_3, a, b, c, d, nx, ny)
-    print_result("Problem 1.3", "Double Integral of x*sin(y) (Scratch)", integral_scratch)
+    print_result(
+        "Problem 1.3", "Double Integral of x*sin(y) (Scratch)", integral_scratch
+    )
 
     # 4. Verify with SciPy
     # TODO:

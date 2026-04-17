@@ -13,6 +13,7 @@ from scipy.stats import multivariate_normal, norm
 # Task 7.1: PageRank (Power Iteration)
 # =============================================================================
 
+
 def pagerank_power_iteration(adj_matrix, d=0.85, tol=1e-6, max_iter=1000):
     """
     Compute PageRank using power iteration.
@@ -87,16 +88,18 @@ def create_mini_internet_graph():
     G = nx.DiGraph()
 
     # Add nodes (websites)
-    nodes = ['A', 'B', 'C', 'D', 'E']
+    nodes = ["A", "B", "C", "D", "E"]
     G.add_nodes_from(nodes)
 
     # Add edges (links between websites)
     edges = [
-        ('A', 'B'), ('A', 'C'),
-        ('B', 'C'),
-        ('C', 'A'),
-        ('D', 'C'), ('D', 'E'),
-        ('E', 'D')
+        ("A", "B"),
+        ("A", "C"),
+        ("B", "C"),
+        ("C", "A"),
+        ("D", "C"),
+        ("D", "E"),
+        ("E", "D"),
     ]
     G.add_edges_from(edges)
 
@@ -112,7 +115,7 @@ def create_mini_internet_graph():
     return adj_matrix, G, nodes
 
 
-def visualize_pagerank(G, pagerank_scores, nodes, filename='pagerank_graph.png'):
+def visualize_pagerank(G, pagerank_scores, nodes, filename="pagerank_graph.png"):
     """
     Visualize the graph with node sizes proportional to PageRank scores.
     """
@@ -128,15 +131,22 @@ def visualize_pagerank(G, pagerank_scores, nodes, filename='pagerank_graph.png')
     node_sizes = {nodes[i]: scores_normalized[i] for i in range(len(nodes))}
 
     # Draw the graph
-    nx.draw_networkx_nodes(G, pos, node_size=[node_sizes[node] for node in G.nodes()],
-                           node_color='lightblue', alpha=0.9)
-    nx.draw_networkx_labels(G, pos, font_size=12, font_weight='bold')
-    nx.draw_networkx_edges(G, pos, edge_color='gray', arrows=True, arrowsize=20)
+    nx.draw_networkx_nodes(
+        G,
+        pos,
+        node_size=[node_sizes[node] for node in G.nodes()],
+        node_color="lightblue",
+        alpha=0.9,
+    )
+    nx.draw_networkx_labels(G, pos, font_size=12, font_weight="bold")
+    nx.draw_networkx_edges(G, pos, edge_color="gray", arrows=True, arrowsize=20)
 
-    plt.title('PageRank Visualization - Node Size Proportional to Importance', fontsize=14)
-    plt.axis('off')
+    plt.title(
+        "PageRank Visualization - Node Size Proportional to Importance", fontsize=14
+    )
+    plt.axis("off")
     plt.tight_layout()
-    plt.savefig(filename, dpi=150, bbox_inches='tight')
+    plt.savefig(filename, dpi=150, bbox_inches="tight")
     plt.show()
     print(f"Graph visualization saved as '{filename}'")
 
@@ -145,12 +155,13 @@ def visualize_pagerank(G, pagerank_scores, nodes, filename='pagerank_graph.png')
 # Task 7.2: Metropolis-Hastings (MCMC)
 # =============================================================================
 
+
 def target_density_double_well(x):
     """
     Double well potential (mixture of two unnormalized Gaussians).
     f(x) ∝ exp(-(x-4)^2/2) + exp(-(x+4)^2/2)
     """
-    return np.exp(-(x - 4)**2 / 2) + np.exp(-(x + 4)**2 / 2)
+    return np.exp(-((x - 4) ** 2) / 2) + np.exp(-((x + 4) ** 2) / 2)
 
 
 def metropolis_hastings(target_density, x0, n_samples, proposal_std=2.0):
@@ -182,7 +193,7 @@ def metropolis_hastings(target_density, x0, n_samples, proposal_std=2.0):
 
     for t in range(1, n_samples):
         # Current state
-        x_current = samples[t-1]
+        x_current = samples[t - 1]
 
         # Propose new state from Gaussian centered at current state
         x_proposed = np.random.normal(x_current, proposal_std)
@@ -190,7 +201,9 @@ def metropolis_hastings(target_density, x0, n_samples, proposal_std=2.0):
         # Compute acceptance probability
         # For symmetric proposal, acceptance ratio = target_density(x_proposed) / target_density(x_current)
         # But careful with numerical stability: compare log densities
-        log_ratio = np.log(target_density(x_proposed) + 1e-10) - np.log(target_density(x_current) + 1e-10)
+        log_ratio = np.log(target_density(x_proposed) + 1e-10) - np.log(
+            target_density(x_current) + 1e-10
+        )
         acceptance_prob = min(1.0, np.exp(log_ratio))
 
         # Accept or reject
@@ -205,7 +218,7 @@ def metropolis_hastings(target_density, x0, n_samples, proposal_std=2.0):
     return samples, acceptance_rate
 
 
-def plot_mh_results(samples, burnin=500, filename='mh_trace_hist.png'):
+def plot_mh_results(samples, burnin=500, filename="mh_trace_hist.png"):
     """
     Plot trace plot and histogram for Metropolis-Hastings samples.
     """
@@ -213,18 +226,25 @@ def plot_mh_results(samples, burnin=500, filename='mh_trace_hist.png'):
 
     # Trace plot
     axes[0].plot(samples, alpha=0.7, linewidth=0.5)
-    axes[0].axvline(x=burnin, color='red', linestyle='--', label=f'Burn-in ({burnin})')
-    axes[0].set_xlabel('Iteration', fontsize=12)
-    axes[0].set_ylabel('Value', fontsize=12)
-    axes[0].set_title('Trace Plot', fontsize=14)
+    axes[0].axvline(x=burnin, color="red", linestyle="--", label=f"Burn-in ({burnin})")
+    axes[0].set_xlabel("Iteration", fontsize=12)
+    axes[0].set_ylabel("Value", fontsize=12)
+    axes[0].set_title("Trace Plot", fontsize=14)
     axes[0].legend()
     axes[0].grid(True, alpha=0.3)
 
     # Histogram with true density overlay (after burn-in)
     samples_after_burnin = samples[burnin:]
 
-    axes[1].hist(samples_after_burnin, bins=50, density=True, alpha=0.7,
-                 color='skyblue', edgecolor='black', label='Samples')
+    axes[1].hist(
+        samples_after_burnin,
+        bins=50,
+        density=True,
+        alpha=0.7,
+        color="skyblue",
+        edgecolor="black",
+        label="Samples",
+    )
 
     # True density (normalized for comparison)
     x_grid = np.linspace(-10, 10, 1000)
@@ -233,15 +253,17 @@ def plot_mh_results(samples, burnin=500, filename='mh_trace_hist.png'):
     dx = x_grid[1] - x_grid[0]
     true_density_normalized = true_density / (np.sum(true_density) * dx)
 
-    axes[1].plot(x_grid, true_density_normalized, 'r-', linewidth=2, label='True density')
-    axes[1].set_xlabel('x', fontsize=12)
-    axes[1].set_ylabel('Density', fontsize=12)
-    axes[1].set_title('Histogram of Samples vs. True Density', fontsize=14)
+    axes[1].plot(
+        x_grid, true_density_normalized, "r-", linewidth=2, label="True density"
+    )
+    axes[1].set_xlabel("x", fontsize=12)
+    axes[1].set_ylabel("Density", fontsize=12)
+    axes[1].set_title("Histogram of Samples vs. True Density", fontsize=14)
     axes[1].legend()
     axes[1].grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig(filename, dpi=150, bbox_inches='tight')
+    plt.savefig(filename, dpi=150, bbox_inches="tight")
     plt.show()
     print(f"Metropolis-Hastings results saved as '{filename}'")
 
@@ -251,6 +273,7 @@ def plot_mh_results(samples, burnin=500, filename='mh_trace_hist.png'):
 # =============================================================================
 # Task 7.3: Gibbs Sampling
 # =============================================================================
+
 
 def gibbs_sampler(rho, n_samples, x0=0, y0=0):
     """
@@ -280,7 +303,7 @@ def gibbs_sampler(rho, n_samples, x0=0, y0=0):
 
     for t in range(1, n_samples):
         # Sample x_t given y_{t-1}
-        x_mean = rho * samples[t-1, 1]
+        x_mean = rho * samples[t - 1, 1]
         samples[t, 0] = np.random.normal(x_mean, cond_std)
 
         # Sample y_t given x_t
@@ -290,14 +313,14 @@ def gibbs_sampler(rho, n_samples, x0=0, y0=0):
     return samples
 
 
-def plot_gibbs_results(samples, rho, filename='gibbs_scatter.png'):
+def plot_gibbs_results(samples, rho, filename="gibbs_scatter.png"):
     """
     Scatter plot of Gibbs sampler samples.
     """
     plt.figure(figsize=(10, 8))
 
     # Scatter plot of samples
-    plt.scatter(samples[:, 0], samples[:, 1], alpha=0.5, s=10, c='steelblue')
+    plt.scatter(samples[:, 0], samples[:, 1], alpha=0.5, s=10, c="steelblue")
 
     # Add contour lines of true distribution
     x = np.linspace(-4, 4, 100)
@@ -311,20 +334,25 @@ def plot_gibbs_results(samples, rho, filename='gibbs_scatter.png'):
     pos = np.dstack((X, Y))
     Z = rv.pdf(pos)
 
-    plt.contour(X, Y, Z, levels=10, colors='red', alpha=0.5, linewidths=1)
+    plt.contour(X, Y, Z, levels=10, colors="red", alpha=0.5, linewidths=1)
 
-    plt.xlabel('X', fontsize=14)
-    plt.ylabel('Y', fontsize=14)
-    plt.title(f'Gibbs Sampling: Bivariate Gaussian (ρ = {rho})', fontsize=14)
+    plt.xlabel("X", fontsize=14)
+    plt.ylabel("Y", fontsize=14)
+    plt.title(f"Gibbs Sampling: Bivariate Gaussian (ρ = {rho})", fontsize=14)
     plt.grid(True, alpha=0.3)
-    plt.axis('equal')
+    plt.axis("equal")
 
     # Add correlation annotation
-    plt.annotate(f'Correlation: {rho}', xy=(0.05, 0.95), xycoords='axes fraction',
-                 fontsize=12, bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+    plt.annotate(
+        f"Correlation: {rho}",
+        xy=(0.05, 0.95),
+        xycoords="axes fraction",
+        fontsize=12,
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8),
+    )
 
     plt.tight_layout()
-    plt.savefig(filename, dpi=150, bbox_inches='tight')
+    plt.savefig(filename, dpi=150, bbox_inches="tight")
     plt.show()
     print(f"Gibbs sampling results saved as '{filename}'")
 
@@ -332,6 +360,7 @@ def plot_gibbs_results(samples, rho, filename='gibbs_scatter.png'):
 # =============================================================================
 # Bonus B1: Gelman-Rubin Diagnostic (Optional)
 # =============================================================================
+
 
 def gelman_rubin(chains):
     """
@@ -373,9 +402,9 @@ def run_gelman_rubin_diagnostic():
     """
     Run multiple chains and compute R-hat over time.
     """
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("BONUS B1: Gelman-Rubin Convergence Diagnostic")
-    print("="*60)
+    print("=" * 60)
 
     n_chains = 4
     n_samples = 5000
@@ -398,17 +427,17 @@ def run_gelman_rubin_diagnostic():
 
     # Plot R-hat over time
     plt.figure(figsize=(10, 6))
-    plt.plot(sample_sizes, r_hat_values, 'b-', linewidth=2)
-    plt.axhline(y=1.1, color='red', linestyle='--', label='Convergence threshold (1.1)')
-    plt.axhline(y=1.0, color='green', linestyle=':', label='Ideal (1.0)')
-    plt.xlabel('Number of Samples', fontsize=12)
-    plt.ylabel('R-hat', fontsize=12)
-    plt.title('Gelman-Rubin Diagnostic for Metropolis-Hastings', fontsize=14)
+    plt.plot(sample_sizes, r_hat_values, "b-", linewidth=2)
+    plt.axhline(y=1.1, color="red", linestyle="--", label="Convergence threshold (1.1)")
+    plt.axhline(y=1.0, color="green", linestyle=":", label="Ideal (1.0)")
+    plt.xlabel("Number of Samples", fontsize=12)
+    plt.ylabel("R-hat", fontsize=12)
+    plt.title("Gelman-Rubin Diagnostic for Metropolis-Hastings", fontsize=14)
     plt.grid(True, alpha=0.3)
     plt.legend()
     plt.ylim(0.95, 2.0)
     plt.tight_layout()
-    plt.savefig('gelman_rubin.png', dpi=150, bbox_inches='tight')
+    plt.savefig("gelman_rubin.png", dpi=150, bbox_inches="tight")
     plt.show()
     print("Gelman-Rubin diagnostic plot saved as 'gelman_rubin.png'")
 
@@ -425,16 +454,16 @@ def run_gelman_rubin_diagnostic():
 # =============================================================================
 
 if __name__ == "__main__":
-    print("="*60)
+    print("=" * 60)
     print("ASSIGNMENT 7: Markov Chains & Sampling Methods")
-    print("="*60)
+    print("=" * 60)
 
     # -------------------------------------------------------------------------
     # Task 7.1: PageRank
     # -------------------------------------------------------------------------
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("TASK 7.1: PageRank (Power Iteration)")
-    print("="*60)
+    print("=" * 60)
 
     # Create graph
     adj_matrix, G, nodes = create_mini_internet_graph()
@@ -449,7 +478,9 @@ if __name__ == "__main__":
         print(f"  Node {node}: {pagerank_scores[i]:.6f}")
 
     most_important_idx = np.argmax(pagerank_scores)
-    print(f"\nMost important node: {nodes[most_important_idx]} (score: {pagerank_scores[most_important_idx]:.6f})")
+    print(
+        f"\nMost important node: {nodes[most_important_idx]} (score: {pagerank_scores[most_important_idx]:.6f})"
+    )
 
     # Visualize
     visualize_pagerank(G, pagerank_scores, nodes)
@@ -457,9 +488,9 @@ if __name__ == "__main__":
     # -------------------------------------------------------------------------
     # Task 7.2: Metropolis-Hastings
     # -------------------------------------------------------------------------
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("TASK 7.2: Metropolis-Hastings MCMC")
-    print("="*60)
+    print("=" * 60)
 
     # Run Metropolis-Hastings
     np.random.seed(42)  # For reproducibility
@@ -488,9 +519,9 @@ if __name__ == "__main__":
     # -------------------------------------------------------------------------
     # Task 7.3: Gibbs Sampling
     # -------------------------------------------------------------------------
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("TASK 7.3: Gibbs Sampling")
-    print("="*60)
+    print("=" * 60)
 
     # Run Gibbs sampler
     np.random.seed(42)

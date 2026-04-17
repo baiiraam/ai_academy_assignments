@@ -33,36 +33,103 @@ except Exception:  # pragma: no cover
 # ============================================================
 
 # Task 5.1 example dataset for z-test (e.g., latency measurements in ms)
-Z_TEST_DATA = np.array([
-    101.2, 98.7, 103.5, 99.1, 100.4, 102.0, 97.9, 101.8, 99.9, 100.7,
-    98.4, 101.1, 102.9, 99.3, 100.2, 101.5, 98.8, 100.0, 99.6, 102.2
-], dtype=float)
+Z_TEST_DATA = np.array(
+    [
+        101.2,
+        98.7,
+        103.5,
+        99.1,
+        100.4,
+        102.0,
+        97.9,
+        101.8,
+        99.9,
+        100.7,
+        98.4,
+        101.1,
+        102.9,
+        99.3,
+        100.2,
+        101.5,
+        98.8,
+        100.0,
+        99.6,
+        102.2,
+    ],
+    dtype=float,
+)
 MU0_Z = 100.0
 SIGMA_Z = 15.0  # assumed known population sigma
 
 # Task 5.2: model accuracies across random seeds (A/B test)
-MODEL_A_ACCURACIES = np.array([
-    0.812, 0.805, 0.809, 0.814, 0.803, 0.811, 0.807, 0.810, 0.808, 0.806,
-    0.813, 0.804, 0.809, 0.807, 0.812, 0.806, 0.810, 0.808, 0.805, 0.811
-], dtype=float)
+MODEL_A_ACCURACIES = np.array(
+    [
+        0.812,
+        0.805,
+        0.809,
+        0.814,
+        0.803,
+        0.811,
+        0.807,
+        0.810,
+        0.808,
+        0.806,
+        0.813,
+        0.804,
+        0.809,
+        0.807,
+        0.812,
+        0.806,
+        0.810,
+        0.808,
+        0.805,
+        0.811,
+    ],
+    dtype=float,
+)
 
-MODEL_B_ACCURACIES = np.array([
-    0.821, 0.816, 0.819, 0.823, 0.815, 0.822, 0.818, 0.820, 0.817, 0.816,
-    0.824, 0.814, 0.820, 0.818, 0.823, 0.816, 0.821, 0.819, 0.815, 0.822
-], dtype=float)
+MODEL_B_ACCURACIES = np.array(
+    [
+        0.821,
+        0.816,
+        0.819,
+        0.823,
+        0.815,
+        0.822,
+        0.818,
+        0.820,
+        0.817,
+        0.816,
+        0.824,
+        0.814,
+        0.820,
+        0.818,
+        0.823,
+        0.816,
+        0.821,
+        0.819,
+        0.815,
+        0.822,
+    ],
+    dtype=float,
+)
 
 # Task 5.3: contingency table (rows = user segment, cols = churn status)
 # Columns: [Retained, Churned]
-OBSERVED_CONTINGENCY = np.array([
-    [50, 30],   # Segment 1
-    [45, 55],   # Segment 2
-    [20, 60],   # Segment 3
-], dtype=float)
+OBSERVED_CONTINGENCY = np.array(
+    [
+        [50, 30],  # Segment 1
+        [45, 55],  # Segment 2
+        [20, 60],  # Segment 3
+    ],
+    dtype=float,
+)
 
 
 # ============================================================
 # Small distribution helpers (optional)
 # ============================================================
+
 
 def _norm_cdf(x: float) -> float:
     """Standard normal CDF."""
@@ -82,6 +149,7 @@ def _norm_ppf(p: float) -> float:
 # ============================================================
 # Task 5.1 — Z-test and Power
 # ============================================================
+
 
 def z_test(data: np.ndarray, mu_0: float, sigma: float) -> tuple[float, float]:
     """
@@ -114,7 +182,7 @@ def compute_power(effect_size: float, alpha: float, n: int, sigma: float) -> flo
     Returns power = P(reject H0 | H1 true).
     """
     # Critical values for two-sided test
-    z_crit = _norm_ppf(1 - alpha/2)
+    z_crit = _norm_ppf(1 - alpha / 2)
 
     # Mean of Z under H1
     mean_z = effect_size / (sigma / np.sqrt(n))
@@ -127,8 +195,13 @@ def compute_power(effect_size: float, alpha: float, n: int, sigma: float) -> flo
     return power_left + power_right
 
 
-def plot_power_curve(effect_size: float, alpha: float, sigma: float, n_values: np.ndarray,
-                     filename: str = "power_curve.png") -> None:
+def plot_power_curve(
+    effect_size: float,
+    alpha: float,
+    sigma: float,
+    n_values: np.ndarray,
+    filename: str = "power_curve.png",
+) -> None:
     """
     Plot power vs. n and save to disk.
     """
@@ -139,14 +212,14 @@ def plot_power_curve(effect_size: float, alpha: float, sigma: float, n_values: n
 
     plt.figure(figsize=(9, 5))
     plt.plot(n_values, powers, linewidth=2)
-    plt.axhline(0.8, linestyle="--", linewidth=1, color='red', label='80% power')
+    plt.axhline(0.8, linestyle="--", linewidth=1, color="red", label="80% power")
 
     # Find smallest n achieving 80% power
     idx_80 = np.where(powers >= 0.8)[0]
     if len(idx_80) > 0:
         n_80 = n_values[idx_80[0]]
-        plt.axvline(n_80, linestyle=":", linewidth=1, color='green', alpha=0.7)
-        plt.text(n_80 + 5, 0.5, f'n ≈ {n_80}', fontsize=10)
+        plt.axvline(n_80, linestyle=":", linewidth=1, color="green", alpha=0.7)
+        plt.text(n_80 + 5, 0.5, f"n ≈ {n_80}", fontsize=10)
 
     plt.xlabel("Sample size n")
     plt.ylabel("Power (1 - beta)")
@@ -161,6 +234,7 @@ def plot_power_curve(effect_size: float, alpha: float, sigma: float, n_values: n
 # ============================================================
 # Task 5.2 — Welch's t-test and Confidence Interval
 # ============================================================
+
 
 def welch_t_test(data_a: np.ndarray, data_b: np.ndarray) -> tuple[float, float, float]:
     """
@@ -177,14 +251,14 @@ def welch_t_test(data_a: np.ndarray, data_b: np.ndarray) -> tuple[float, float, 
     var_b = np.var(data_b, ddof=1)
 
     # Standard error for difference in means
-    se = np.sqrt(var_a/n_a + var_b/n_b)
+    se = np.sqrt(var_a / n_a + var_b / n_b)
 
     # t-statistic
     t_stat = (mean_a - mean_b) / se
 
     # Degrees of freedom (Welch-Satterthwaite equation)
-    numerator = (var_a/n_a + var_b/n_b)**2
-    denominator = (var_a/n_a)**2 / (n_a - 1) + (var_b/n_b)**2 / (n_b - 1)
+    numerator = (var_a / n_a + var_b / n_b) ** 2
+    denominator = (var_a / n_a) ** 2 / (n_a - 1) + (var_b / n_b) ** 2 / (n_b - 1)
     dof = numerator / denominator
 
     # Two-sided p-value
@@ -197,7 +271,9 @@ def welch_t_test(data_a: np.ndarray, data_b: np.ndarray) -> tuple[float, float, 
     return t_stat, dof, p_value
 
 
-def compute_confidence_interval(data: np.ndarray, confidence: float = 0.95) -> tuple[float, float, float]:
+def compute_confidence_interval(
+    data: np.ndarray, confidence: float = 0.95
+) -> tuple[float, float, float]:
     """
     Two-sided confidence interval for the mean using t distribution.
     Returns: (mean, ci_low, ci_high)
@@ -242,16 +318,19 @@ def compute_confidence_interval(data: np.ndarray, confidence: float = 0.95) -> t
 #     plt.savefig(OUTPUT_DIR / filename, dpi=200)
 #     plt.close()
 
+
 def plot_confidence_intervals(
-    mean_a: float, ci_a: tuple[float, float],
-    mean_b: float, ci_b: tuple[float, float],
-    filename: str = "confidence_intervals.png"
+    mean_a: float,
+    ci_a: tuple[float, float],
+    mean_b: float,
+    ci_b: tuple[float, float],
+    filename: str = "confidence_intervals.png",
 ) -> None:
     """
     Error bar plot for two mean confidence intervals with improved aesthetics.
     """
     # Data preparation
-    models = ['Model A\n(Baseline)', 'Model B\n(New)']
+    models = ["Model A\n(Baseline)", "Model B\n(New)"]
     means = np.array([mean_a, mean_b], dtype=float)
     ci_lows = np.array([ci_a[0], ci_b[0]], dtype=float)
     ci_highs = np.array([ci_a[1], ci_b[1]], dtype=float)
@@ -265,24 +344,39 @@ def plot_confidence_intervals(
     fig, ax = plt.subplots(figsize=(8, 6))
 
     # Define colors (using a professional color palette)
-    colors = ['#2E86AB', '#A23B72']  # Blue and purple
-    point_colors = ['#F9C74F', '#F9844A']  # Yellow and orange for points
+    colors = ["#2E86AB", "#A23B72"]  # Blue and purple
+    point_colors = ["#F9C74F", "#F9844A"]  # Yellow and orange for points
 
     # Plot means with error bars
     for i, (mean, low, high, color) in enumerate(zip(means, ci_lows, ci_highs, colors)):
         # Mean point
-        ax.scatter(i, mean, color='white', edgecolor=color, s=200,
-                  linewidth=2.5, zorder=3, label='Mean' if i == 0 else "")
+        ax.scatter(
+            i,
+            mean,
+            color="white",
+            edgecolor=color,
+            s=200,
+            linewidth=2.5,
+            zorder=3,
+            label="Mean" if i == 0 else "",
+        )
 
         # Error bar
-        ax.errorbar(i, mean, yerr=[[mean-low], [high-mean]],
-                   color=color, capsize=10, capthick=2.5,
-                   linewidth=2.5, zorder=2)
+        ax.errorbar(
+            i,
+            mean,
+            yerr=[[mean - low], [high - mean]],
+            color=color,
+            capsize=10,
+            capthick=2.5,
+            linewidth=2.5,
+            zorder=2,
+        )
 
     # Customize plot
     ax.set_xticks([0, 1])
-    ax.set_xticklabels(models, fontsize=12, fontweight='bold')
-    ax.set_ylabel('Accuracy', fontsize=12, fontweight='bold')
+    ax.set_xticklabels(models, fontsize=12, fontweight="bold")
+    ax.set_ylabel("Accuracy", fontsize=12, fontweight="bold")
 
     # Set y-axis limits with some padding
     y_min = min(ci_lows) - 0.01
@@ -290,64 +384,133 @@ def plot_confidence_intervals(
     ax.set_ylim(y_min, y_max)
 
     # Add grid for better readability
-    ax.grid(True, alpha=0.3, linestyle='--', linewidth=0.5, axis='y')
+    ax.grid(True, alpha=0.3, linestyle="--", linewidth=0.5, axis="y")
     ax.set_axisbelow(True)  # Grid behind data
 
     # Add title with statistical significance info
     t_stat, dof, p_val = welch_t_test(MODEL_A_ACCURACIES, MODEL_B_ACCURACIES)
-    sig_text = "Statistically Significant" if p_val < 0.05 else "Not Statistically Significant"
-    ax.set_title(f'95% Confidence Intervals for Mean Accuracy\n{p_val:.2e} ({sig_text})',
-                fontsize=14, fontweight='bold', pad=20)
+    sig_text = (
+        "Statistically Significant" if p_val < 0.05 else "Not Statistically Significant"
+    )
+    ax.set_title(
+        f"95% Confidence Intervals for Mean Accuracy\n{p_val:.2e} ({sig_text})",
+        fontsize=14,
+        fontweight="bold",
+        pad=20,
+    )
 
     # Add value labels near the means
     for i, (mean, low, high) in enumerate(zip(means, ci_lows, ci_highs)):
-        ax.text(i, mean + 0.002, f'{mean:.4f}',
-               ha='center', va='bottom', fontsize=10, fontweight='bold')
-        ax.text(i, low - 0.002, f'{low:.4f}',
-               ha='center', va='top', fontsize=8, color='gray')
-        ax.text(i, high + 0.002, f'{high:.4f}',
-               ha='center', va='bottom', fontsize=8, color='gray')
+        ax.text(
+            i,
+            mean + 0.002,
+            f"{mean:.4f}",
+            ha="center",
+            va="bottom",
+            fontsize=10,
+            fontweight="bold",
+        )
+        ax.text(
+            i,
+            low - 0.002,
+            f"{low:.4f}",
+            ha="center",
+            va="top",
+            fontsize=8,
+            color="gray",
+        )
+        ax.text(
+            i,
+            high + 0.002,
+            f"{high:.4f}",
+            ha="center",
+            va="bottom",
+            fontsize=8,
+            color="gray",
+        )
 
     # Add difference annotation
     diff = mean_b - mean_a
-    diff_text = f'Difference: {diff:.4f}'
+    diff_text = f"Difference: {diff:.4f}"
     if p_val < 0.05:
-        diff_text += ' *'
-    ax.annotate(diff_text, xy=(0.5, 0.95), xycoords='axes fraction',
-               ha='center', fontsize=11, style='italic',
-               bbox=dict(boxstyle='round,pad=0.5', facecolor='yellow', alpha=0.2))
+        diff_text += " *"
+    ax.annotate(
+        diff_text,
+        xy=(0.5, 0.95),
+        xycoords="axes fraction",
+        ha="center",
+        fontsize=11,
+        style="italic",
+        bbox=dict(boxstyle="round,pad=0.5", facecolor="yellow", alpha=0.2),
+    )
 
     # Add legend (custom handles)
     from matplotlib.lines import Line2D
+
     legend_elements = [
-        Line2D([0], [0], marker='o', color='w', markerfacecolor=colors[0],
-               markersize=10, label='Model A (Baseline)', markeredgecolor=colors[0]),
-        Line2D([0], [0], marker='o', color='w', markerfacecolor=colors[1],
-               markersize=10, label='Model B (New)', markeredgecolor=colors[1]),
-        Line2D([0], [0], marker='o', color='w', markerfacecolor='white',
-               markeredgecolor='black', markersize=8, label='Mean')
+        Line2D(
+            [0],
+            [0],
+            marker="o",
+            color="w",
+            markerfacecolor=colors[0],
+            markersize=10,
+            label="Model A (Baseline)",
+            markeredgecolor=colors[0],
+        ),
+        Line2D(
+            [0],
+            [0],
+            marker="o",
+            color="w",
+            markerfacecolor=colors[1],
+            markersize=10,
+            label="Model B (New)",
+            markeredgecolor=colors[1],
+        ),
+        Line2D(
+            [0],
+            [0],
+            marker="o",
+            color="w",
+            markerfacecolor="white",
+            markeredgecolor="black",
+            markersize=8,
+            label="Mean",
+        ),
     ]
-    ax.legend(handles=legend_elements, loc='upper left', framealpha=0.9)
+    ax.legend(handles=legend_elements, loc="upper left", framealpha=0.9)
 
     # Add annotation for confidence interval interpretation
-    ax.text(0.02, 0.02,
-            "95% CI: If we repeated this experiment 100 times,\n"
-            "the true mean would fall in this interval ~95 times.",
-            transform=ax.transAxes, fontsize=8, style='italic',
-            bbox=dict(boxstyle='round,pad=0.3', facecolor='lightblue', alpha=0.3))
+    ax.text(
+        0.02,
+        0.02,
+        "95% CI: If we repeated this experiment 100 times,\n"
+        "the true mean would fall in this interval ~95 times.",
+        transform=ax.transAxes,
+        fontsize=8,
+        style="italic",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue", alpha=0.3),
+    )
 
     # Improve overall layout
     plt.tight_layout()
 
     # Save with high quality
-    plt.savefig(OUTPUT_DIR / filename, dpi=300, bbox_inches='tight',
-                facecolor='white', edgecolor='none')
+    plt.savefig(
+        OUTPUT_DIR / filename,
+        dpi=300,
+        bbox_inches="tight",
+        facecolor="white",
+        edgecolor="none",
+    )
     plt.close()
 
 
 # ============================================================
 # Task 5.3 — Chi-square test (vectorized expected matrix)
 # ============================================================
+
 
 def chi_squared_test(observed_matrix: np.ndarray) -> tuple[float, int, float]:
     """
@@ -365,7 +528,7 @@ def chi_squared_test(observed_matrix: np.ndarray) -> tuple[float, int, float]:
     expected_matrix = np.outer(row_sums, col_sums) / N
 
     # Chi-square statistic
-    chi2_stat = np.sum((observed_matrix - expected_matrix)**2 / expected_matrix)
+    chi2_stat = np.sum((observed_matrix - expected_matrix) ** 2 / expected_matrix)
 
     # Degrees of freedom
     dof = (len(row_sums) - 1) * (len(col_sums) - 1)
@@ -375,7 +538,7 @@ def chi_squared_test(observed_matrix: np.ndarray) -> tuple[float, int, float]:
         p_value = 1 - stats.chi2.cdf(chi2_stat, dof)
     else:
         # Rough approximation (not recommended)
-        p_value = np.exp(-chi2_stat/2) if chi2_stat > 0 else 1.0
+        p_value = np.exp(-chi2_stat / 2) if chi2_stat > 0 else 1.0
 
     return chi2_stat, dof, p_value
 
@@ -384,7 +547,10 @@ def chi_squared_test(observed_matrix: np.ndarray) -> tuple[float, int, float]:
 # Bonus 1: Multiple Comparisons with Holm-Bonferroni Correction
 # ============================================================
 
-def holm_bonferroni_correction(p_values: list[float], alpha: float = 0.05) -> tuple[list[bool], list[float]]:
+
+def holm_bonferroni_correction(
+    p_values: list[float], alpha: float = 0.05
+) -> tuple[list[bool], list[float]]:
     """
     Apply Holm-Bonferroni correction for multiple hypothesis testing.
 
@@ -480,14 +646,18 @@ def bonus_multiple_comparisons_example():
     print("\nAfter Holm-Bonferroni correction (family-wise α = 0.05):")
     print("-" * 50)
 
-    for i, (name, raw_p, adj_p, rej) in enumerate(zip(variant_names, raw_p_values, adjusted_p, rejected)):
-        print(f"{name}: \nraw p={raw_p:.6f}, adjusted p={adj_p:.6f}, " +
-              f"Reject H0: {rej}\n")
+    for i, (name, raw_p, adj_p, rej) in enumerate(
+        zip(variant_names, raw_p_values, adjusted_p, rejected)
+    ):
+        print(
+            f"{name}: \nraw p={raw_p:.6f}, adjusted p={adj_p:.6f}, "
+            + f"Reject H0: {rej}\n"
+        )
 
     # Explanation
-    print("\n" + "="*50)
+    print("\n" + "=" * 50)
     print("EXPLANATION: Why multiple comparisons inflate Type I error")
-    print("="*50)
+    print("=" * 50)
     print("""
 When conducting multiple hypothesis tests simultaneously, the probability of
 making at least one Type I error (false positive) increases.
@@ -520,6 +690,7 @@ for all tests) while still maintaining FWER control.
 # Main (runs tasks + saves figures)
 # ============================================================
 
+
 def main() -> None:
     # ---------------- Task 5.1 ----------------
     z, pz = z_test(Z_TEST_DATA, MU0_Z, SIGMA_Z)
@@ -534,13 +705,23 @@ def main() -> None:
         print("  → Fail to reject H0: No evidence mean latency differs from 100ms")
 
     n_values = np.arange(5, 301, 5)
-    plot_power_curve(effect_size=5.0, alpha=0.05, sigma=15.0, n_values=n_values, filename="power_curve.png")
+    plot_power_curve(
+        effect_size=5.0,
+        alpha=0.05,
+        sigma=15.0,
+        n_values=n_values,
+        filename="power_curve.png",
+    )
     print("  saved: power_curve.png")
 
     # ---------------- Task 5.2 ----------------
     t, dof, pt = welch_t_test(MODEL_A_ACCURACIES, MODEL_B_ACCURACIES)
-    mean_a, lo_a, hi_a = compute_confidence_interval(MODEL_A_ACCURACIES, confidence=0.95)
-    mean_b, lo_b, hi_b = compute_confidence_interval(MODEL_B_ACCURACIES, confidence=0.95)
+    mean_a, lo_a, hi_a = compute_confidence_interval(
+        MODEL_A_ACCURACIES, confidence=0.95
+    )
+    mean_b, lo_b, hi_b = compute_confidence_interval(
+        MODEL_B_ACCURACIES, confidence=0.95
+    )
 
     print("\nTask 5.2 — Welch's t-test")
     print("  mean(A):", mean_a, "CI:", (lo_a, hi_a))
@@ -560,9 +741,13 @@ def main() -> None:
         print("  → Fail to reject H0: No statistically significant difference")
         print("    between Model A and Model B accuracies.")
 
-    print("\n\nNote: Statistical significance does NOT imply practical/clinical significance (the effect may be small), causation (randomized experiment helps but doesn't guarantee) , and the fact that the result will replicate (p-values are sample-dependent)")
+    print(
+        "\n\nNote: Statistical significance does NOT imply practical/clinical significance (the effect may be small), causation (randomized experiment helps but doesn't guarantee) , and the fact that the result will replicate (p-values are sample-dependent)"
+    )
 
-    plot_confidence_intervals(mean_a, (lo_a, hi_a), mean_b, (lo_b, hi_b), filename="confidence_intervals.png")
+    plot_confidence_intervals(
+        mean_a, (lo_a, hi_a), mean_b, (lo_b, hi_b), filename="confidence_intervals.png"
+    )
     print("  saved: confidence_intervals.png")
 
     # ---------------- Task 5.3 ----------------

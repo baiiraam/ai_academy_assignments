@@ -19,6 +19,7 @@ y = y_true + np.random.randn(N) * 1.5  # Add Gaussian noise
 # --- Helper Functions ---
 # ====================================================================
 
+
 def compute_loss(X, y, m, b):
     """
     Computes the Mean Squared Error (MSE) loss.
@@ -38,6 +39,7 @@ def compute_loss(X, y, m, b):
 
     return loss
 
+
 def compute_gradient(X, y, m, b):
     """
     Computes the gradient of the MSE loss w.r.t. m and b.
@@ -51,10 +53,11 @@ def compute_gradient(X, y, m, b):
     error = y - (m * X_flat + b)
 
     # Compute gradients
-    grad_m = -(2/N) * np.sum(error * X_flat)
-    grad_b = -(2/N) * np.sum(error)
+    grad_m = -(2 / N) * np.sum(error * X_flat)
+    grad_b = -(2 / N) * np.sum(error)
 
     return grad_m, grad_b
+
 
 def compute_hessian(X, y, m, b):
     """
@@ -66,19 +69,20 @@ def compute_hessian(X, y, m, b):
     X_flat = X.squeeze()
 
     # Compute second derivatives
-    d2L_dm2 = (2/N) * np.sum(X_flat ** 2)
+    d2L_dm2 = (2 / N) * np.sum(X_flat**2)
     d2L_db2 = 2  # Since sum(2/N) = 2
-    d2L_dmdb = (2/N) * np.sum(X_flat)
+    d2L_dmdb = (2 / N) * np.sum(X_flat)
 
     # Construct Hessian matrix
-    hessian = np.array([[d2L_dm2, d2L_dmdb],
-                        [d2L_dmdb, d2L_db2]])
+    hessian = np.array([[d2L_dm2, d2L_dmdb], [d2L_dmdb, d2L_db2]])
 
     return hessian
+
 
 # ====================================================================
 # Part 2: Gradient-Based Optimization Methods
 # ====================================================================
+
 
 def batch_gradient_descent(X, y, lr, epochs):
     """
@@ -103,6 +107,7 @@ def batch_gradient_descent(X, y, lr, epochs):
 
     return loss_history, param_history
 
+
 def stochastic_gradient_descent(X, y, lr, epochs):
     """
     Performs Stochastic Gradient Descent (SGD).
@@ -121,8 +126,8 @@ def stochastic_gradient_descent(X, y, lr, epochs):
         # Iterate through each data point
         for i in range(N):
             # Get single data point
-            X_i = X_shuffled[i:i+1]
-            y_i = y_shuffled[i:i+1]
+            X_i = X_shuffled[i : i + 1]
+            y_i = y_shuffled[i : i + 1]
 
             # Compute gradient for single point
             grad_m, grad_b = compute_gradient(X_i, y_i, m, b)
@@ -137,6 +142,7 @@ def stochastic_gradient_descent(X, y, lr, epochs):
         param_history.append([m, b])
 
     return loss_history, param_history
+
 
 def minibatch_gradient_descent(X, y, lr, epochs, batch_size):
     """
@@ -156,8 +162,8 @@ def minibatch_gradient_descent(X, y, lr, epochs, batch_size):
         # Iterate through mini-batches
         for i in range(0, N, batch_size):
             # Get mini-batch
-            X_batch = X_shuffled[i:i+batch_size]
-            y_batch = y_shuffled[i:i+batch_size]
+            X_batch = X_shuffled[i : i + batch_size]
+            y_batch = y_shuffled[i : i + batch_size]
 
             # Compute gradient for mini-batch
             grad_m, grad_b = compute_gradient(X_batch, y_batch, m, b)
@@ -172,6 +178,7 @@ def minibatch_gradient_descent(X, y, lr, epochs, batch_size):
         param_history.append([m, b])
 
     return loss_history, param_history
+
 
 def minibatch_gd_with_momentum(X, y, lr, epochs, batch_size, beta):
     """
@@ -194,8 +201,8 @@ def minibatch_gd_with_momentum(X, y, lr, epochs, batch_size, beta):
         # Iterate through mini-batches
         for i in range(0, N, batch_size):
             # Get mini-batch
-            X_batch = X_shuffled[i:i+batch_size]
-            y_batch = y_shuffled[i:i+batch_size]
+            X_batch = X_shuffled[i : i + batch_size]
+            y_batch = y_shuffled[i : i + batch_size]
 
             # Compute gradient for mini-batch
             grad_m, grad_b = compute_gradient(X_batch, y_batch, m, b)
@@ -214,6 +221,7 @@ def minibatch_gd_with_momentum(X, y, lr, epochs, batch_size, beta):
         param_history.append([m, b])
 
     return loss_history, param_history
+
 
 def adam_optimizer(X, y, lr, epochs, batch_size, beta1, beta2, epsilon):
     """
@@ -241,8 +249,8 @@ def adam_optimizer(X, y, lr, epochs, batch_size, beta1, beta2, epsilon):
             t += 1
 
             # Get mini-batch
-            X_batch = X_shuffled[i:i+batch_size]
-            y_batch = y_shuffled[i:i+batch_size]
+            X_batch = X_shuffled[i : i + batch_size]
+            y_batch = y_shuffled[i : i + batch_size]
 
             # Compute gradient for mini-batch
             grad_m, grad_b = compute_gradient(X_batch, y_batch, m, b)
@@ -252,14 +260,14 @@ def adam_optimizer(X, y, lr, epochs, batch_size, beta1, beta2, epsilon):
             m_b = beta1 * m_b + (1 - beta1) * grad_b
 
             # Update second moments
-            v_m = beta2 * v_m + (1 - beta2) * (grad_m ** 2)
-            v_b = beta2 * v_b + (1 - beta2) * (grad_b ** 2)
+            v_m = beta2 * v_m + (1 - beta2) * (grad_m**2)
+            v_b = beta2 * v_b + (1 - beta2) * (grad_b**2)
 
             # Bias correction
-            m_m_hat = m_m / (1 - beta1 ** t)
-            m_b_hat = m_b / (1 - beta1 ** t)
-            v_m_hat = v_m / (1 - beta2 ** t)
-            v_b_hat = v_b / (1 - beta2 ** t)
+            m_m_hat = m_m / (1 - beta1**t)
+            m_b_hat = m_b / (1 - beta1**t)
+            v_m_hat = v_m / (1 - beta2**t)
+            v_b_hat = v_b / (1 - beta2**t)
 
             # Update parameters
             m = m - lr * m_m_hat / (np.sqrt(v_m_hat) + epsilon)
@@ -272,9 +280,11 @@ def adam_optimizer(X, y, lr, epochs, batch_size, beta1, beta2, epsilon):
 
     return loss_history, param_history
 
+
 # ====================================================================
 # Part 3: Advanced Second-Order Methods
 # ====================================================================
+
 
 def newtons_method(X, y, epochs):
     """
@@ -308,6 +318,7 @@ def newtons_method(X, y, epochs):
         param_history.append(theta.copy())
 
     return loss_history, param_history
+
 
 # ====================================================================
 # --- Main Execution & Verification ---
@@ -357,29 +368,35 @@ if __name__ == "__main__":
     print(f"BGD: m = {params_bgd[-1][0]:.4f}, b = {params_bgd[-1][1]:.4f}")
     print(f"SGD: m = {params_sgd[-1][0]:.4f}, b = {params_sgd[-1][1]:.4f}")
     print(f"Mini-Batch: m = {params_mbgd[-1][0]:.4f}, b = {params_mbgd[-1][1]:.4f}")
-    print(f"Momentum: m = {params_momentum[-1][0]:.4f}, b = {params_momentum[-1][1]:.4f}")
+    print(
+        f"Momentum: m = {params_momentum[-1][0]:.4f}, b = {params_momentum[-1][1]:.4f}"
+    )
     print(f"Adam: m = {params_adam[-1][0]:.4f}, b = {params_adam[-1][1]:.4f}")
     print(f"Newton: m = {params_newton[-1][0]:.4f}, b = {params_newton[-1][1]:.4f}")
 
     # Create the REQUIRED convergence comparison plot
     plt.figure(figsize=(10, 6))
 
-    plt.plot(loss_bgd, label=f'BGD (lr={LR})', linewidth=2)
-    plt.plot(loss_sgd, label=f'SGD (lr={LR_SGD})', linewidth=2)
-    plt.plot(loss_mbgd, label=f'Mini-Batch (bs={BATCH_SIZE})', linewidth=2)
-    plt.plot(loss_momentum, label=f'Momentum (β={BETA})', linewidth=2)
-    plt.plot(loss_adam, label=f'Adam (β1={BETA1}, β2={BETA2})', linewidth=2)
-    plt.plot(loss_newton, label="Newton's Method", linewidth=3, linestyle='--')
+    plt.plot(loss_bgd, label=f"BGD (lr={LR})", linewidth=2)
+    plt.plot(loss_sgd, label=f"SGD (lr={LR_SGD})", linewidth=2)
+    plt.plot(loss_mbgd, label=f"Mini-Batch (bs={BATCH_SIZE})", linewidth=2)
+    plt.plot(loss_momentum, label=f"Momentum (β={BETA})", linewidth=2)
+    plt.plot(loss_adam, label=f"Adam (β1={BETA1}, β2={BETA2})", linewidth=2)
+    plt.plot(loss_newton, label="Newton's Method", linewidth=3, linestyle="--")
 
-    plt.yscale('log')
-    plt.xlabel('Epochs', fontsize=12)
-    plt.ylabel('Loss (log scale)', fontsize=12)
-    plt.title('Convergence Comparison of Optimization Algorithms', fontsize=14, fontweight='bold')
+    plt.yscale("log")
+    plt.xlabel("Epochs", fontsize=12)
+    plt.ylabel("Loss (log scale)", fontsize=12)
+    plt.title(
+        "Convergence Comparison of Optimization Algorithms",
+        fontsize=14,
+        fontweight="bold",
+    )
     plt.legend(fontsize=10)
     plt.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig('convergence_plot.png', dpi=300, bbox_inches='tight')
+    plt.savefig("convergence_plot.png", dpi=300, bbox_inches="tight")
     plt.show()
 
     print("\n--- End of Verification ---")

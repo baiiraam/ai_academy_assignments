@@ -7,17 +7,14 @@
 import numpy as np
 
 # --- Example System ---
-A = [
-    [2, 1, 3],
-    [4, 4, 7],
-    [2, 5, 9]
-]
+A = [[2, 1, 3], [4, 4, 7], [2, 5, 9]]
 
 b = [1, 1, 3]
 
 # =====================================================
 # PART 2.1: Gaussian Elimination from Scratch
 # =====================================================
+
 
 def gaussian_elimination(A, b):
     """
@@ -67,7 +64,6 @@ def gaussian_elimination(A, b):
             # Eliminating row {j} using scaling_factor
             augmented_matrix[j, i:] -= scaling_factor * augmented_matrix[i, i:]
 
-
     # Check for zero rows in the final matrix
     for i in range(n):
         if np.all(np.abs(augmented_matrix[i, :n]) < 1e-12):
@@ -80,17 +76,15 @@ def gaussian_elimination(A, b):
     x = np.zeros(n)
 
     # Start from last row and move upwards
-    x[n-1] = augmented_matrix[n-1, n] / augmented_matrix[n-1, n-1]
+    x[n - 1] = augmented_matrix[n - 1, n] / augmented_matrix[n - 1, n - 1]
 
-    for i in range(n-2, -1, -1):
+    for i in range(n - 2, -1, -1):
         sum_ax = 0.0
         for j in range(i + 1, n):
             sum_ax += augmented_matrix[i, j] * x[j]
         x[i] = (augmented_matrix[i, n] - sum_ax) / augmented_matrix[i, i]
 
     return x.tolist()
-
-
 
 
 # --- Solve using your function ---
