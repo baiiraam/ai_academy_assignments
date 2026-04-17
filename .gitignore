@@ -1,9 +1,10 @@
 # PDFs, txt, zip, pptx, docx
 *.pdf
-*.txt
 *.zip
 *.pptx
 *.docx
+*.txt
+!requirements.txt
 *.ppt
 *.pptm
 module_1/Calculus & Optimization/calculus_assignments/Assignments
