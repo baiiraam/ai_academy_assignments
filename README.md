@@ -4,3 +4,5 @@ This repository contains assignments from ai academy and implementations corresp
 module_1/ (MATH),
 \
 module_2/ (SWE).
+
+Adding this just for trial.
