@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "black>=26.3.1",
     "matplotlib>=3.10.8",
+    "multipledispatch>=1.0.0",
     "numpy>=2.4.4",
     "requests>=2.33.1",
 ]
