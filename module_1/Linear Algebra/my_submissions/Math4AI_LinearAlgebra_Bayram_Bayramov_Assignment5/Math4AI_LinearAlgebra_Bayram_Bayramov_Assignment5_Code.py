@@ -286,7 +286,6 @@ else:
 
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D  # Required for 3D plotting
 
 
 # --- Helper Functions for Pretty Printing ---
@@ -453,7 +452,7 @@ if x_hat_linear is not None:
     size_to_predict = 200
     age_to_predict = 5
     predicted_price = c0 + c1 * size_to_predict + c2 * age_to_predict
-    print(f"\n--- Interpretation ---")
+    print("\n--- Interpretation ---")
     print(f"The linear model is: price = {c0:.2f} + {c1:.2f}*size + {c2:.2f}*age")
     print(
         f"Predicted price for a {size_to_predict} sq m, {age_to_predict}-year-old house: ${predicted_price:.2f}k"

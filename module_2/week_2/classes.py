@@ -1,5 +1,4 @@
-from typing import Any
-
+from multipledispatch import dispatch
 
 class Car:
     def __init__(self, name: str = "default_name", model: str = "default_model"):
@@ -45,7 +44,7 @@ class Dog(Animal):
         super().__init__(name, age)
 
     def bark(self):
-        return f"Woof!"
+        return "Woof!"
 
     def __str__(self):
         return f"Dog: {self.name} {self.age}"
@@ -61,7 +60,6 @@ alabay1 = Alabay()
 print(alabay1.mro())
 
 # Overloading
-from multipledispatch import dispatch
 
 
 @dispatch(str)
@@ -70,12 +68,12 @@ def print_data(data):
 
 
 @dispatch(list)
-def print_data(data):
+def print_data(data):   # noqa F811
     print(f"list data {data}")
 
 
 @dispatch(int)
-def print_data(data):
+def print_data(data):   # noqa 811
     print(f"int data {data}")
 
 

@@ -140,7 +140,7 @@ def run_section_2():
     # Relative errors
     rel_error_empirical = abs(empirical_prob - exact_prob) / exact_prob * 100
     rel_error_poisson = abs(approx_prob - exact_prob) / exact_prob * 100
-    print(f"\nRelative Errors:")
+    print("\nRelative Errors:")
     print(f"  Empirical vs Exact: {rel_error_empirical:.2f}%")
     print(f"  Poisson vs Exact:   {rel_error_poisson:.2f}%")
 
@@ -243,7 +243,7 @@ def run_section_3():
     rmse_x = np.sqrt(np.mean((marginal_x - theory_x) ** 2))
     rmse_y = np.sqrt(np.mean((marginal_y - theory_y) ** 2))
 
-    print(f"\nMarginal Distribution Accuracy:")
+    print("\nMarginal Distribution Accuracy:")
     print(f"  RMSE for P(X): {rmse_x:.6f}")
     print(f"  RMSE for P(Y): {rmse_y:.6f}")
 
