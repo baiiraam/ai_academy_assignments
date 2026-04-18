@@ -162,7 +162,7 @@ else:
         # For each basis vector v, A @ v should be the zero vector
         result = A @ v
         print(f"Verifying basis vector {i+1}: A @ v_{i+1}")
-        print_matrix(f"Result (should be zero vector)", result.reshape(-1, 1))
+        print_matrix("Result (should be zero vector)", result.reshape(-1, 1))
         # Check if it's close to zero to handle floating point errors
         print(f"Is close to zero? {np.allclose(result, 0)}\n")
 

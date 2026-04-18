@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     # 3. Call your 'from scratch' implementation
     limit_scratch = approximate_limit(func_for_limit, a_val)
-    print_result("Problem 1.1", f"Limit of sin(x)/x as x->0 (Scratch)", limit_scratch)
+    print_result("Problem 1.1", "Limit of sin(x)/x as x->0 (Scratch)", limit_scratch)
 
     # 4. Verify with SymPy
 

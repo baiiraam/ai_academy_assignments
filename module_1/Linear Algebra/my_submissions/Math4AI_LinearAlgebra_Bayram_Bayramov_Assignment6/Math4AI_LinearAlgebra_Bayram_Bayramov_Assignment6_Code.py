@@ -2,7 +2,6 @@
 # Starter Code Template
 
 import numpy as np
-from scipy.linalg import null_space, orth
 
 
 # --- Helper Functions for Pretty Printing ---
@@ -212,7 +211,7 @@ if all(b is not None for b in [C_A_basis, N_A_basis, C_AT_basis, N_AT_basis]):
         row_vec_1 = C_AT_basis[0]
         null_vec_1 = N_A_basis[0]
         dot_product_1 = np.dot(row_vec_1, null_vec_1)
-        print(f"Dot product of a row space vector and a nullspace vector:")
+        print("Dot product of a row space vector and a nullspace vector:")
         print(f"Result = {dot_product_1:.4f} (should be 0)")
 
     # Column Space _|_ Left Nullspace
@@ -224,7 +223,7 @@ if all(b is not None for b in [C_A_basis, N_A_basis, C_AT_basis, N_AT_basis]):
         col_vec_1 = C_A_basis[:, 0]
         left_null_vec_1 = N_AT_basis[0]
         dot_product_2 = np.dot(col_vec_1, left_null_vec_1)
-        print(f"\nDot product of a column space vector and a left nullspace vector:")
+        print("\nDot product of a column space vector and a left nullspace vector:")
         print(f"Result = {dot_product_2:.4f} (should be 0)")
 else:
     print("Bases not implemented, cannot verify orthogonality.")

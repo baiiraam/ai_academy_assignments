@@ -9,7 +9,7 @@ class CustomErrorToShowThatIWantToUseExceptionsError(Exception):
 def plot_graphs(x_data, y_data, x_label, y_label, title, color=None):
     plt.figure()
     # if there are more than one graph to plot in the same figure, same x-axis
-    if all(type(arg) == list for arg in [x_data, y_data, y_label]):
+    if all(isinstance(arg, list) for arg in [x_data, y_data, y_label]):
         lx = len(x_data)
         if lx > 1 and all(len(arg) == lx for arg in [y_data, y_label]):
             for i in range(lx):

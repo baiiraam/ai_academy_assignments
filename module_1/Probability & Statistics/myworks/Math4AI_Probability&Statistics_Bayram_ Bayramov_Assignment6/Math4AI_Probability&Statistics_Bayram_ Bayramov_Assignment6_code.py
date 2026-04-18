@@ -13,7 +13,6 @@ Student Instructions:
 
 from __future__ import annotations
 
-import math
 from typing import Callable, Tuple, Dict, List
 import warnings
 
@@ -22,7 +21,7 @@ import matplotlib.pyplot as plt
 
 # Task 6.2 allowed: SciPy (for optimization + comparison fit)
 from scipy.optimize import minimize
-from scipy.stats import gumbel_r, lognorm
+from scipy.stats import gumbel_r
 
 # ============================================================
 # Provided datasets (do NOT change)

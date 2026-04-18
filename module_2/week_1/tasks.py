@@ -85,7 +85,6 @@ def credit_card_application():
     is_student: is a student or not (True/False)
     """
     age = int(input("Enter age: "))
-    citizen_group = None
     if age < 24:
         is_student = input("Are you a student? (y/n):").lower() == "y"
         if is_student:

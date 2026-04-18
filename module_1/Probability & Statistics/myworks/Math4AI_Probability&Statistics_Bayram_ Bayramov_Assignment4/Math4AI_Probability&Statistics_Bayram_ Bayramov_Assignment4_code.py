@@ -6,10 +6,9 @@ Bayesian Inference & Networks
 from __future__ import annotations
 
 import math
-import itertools
 from pathlib import Path
 from dataclasses import dataclass
-from typing import Dict, Tuple, Any
+from typing import Dict, Tuple
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -118,7 +117,7 @@ def plot_belief_evolution(
         )
 
     # Add vertical line at true theta value
-    plt.axvline(x=0.8, color="red", linestyle="--", alpha=0.7, label=f"True θ = 0.8")
+    plt.axvline(x=0.8, color="red", linestyle="--", alpha=0.7, label="True θ = 0.8")
 
     plt.xlabel(r"$\theta$ (Probability of Heads)", fontsize=12)
     plt.ylabel("Density", fontsize=12)

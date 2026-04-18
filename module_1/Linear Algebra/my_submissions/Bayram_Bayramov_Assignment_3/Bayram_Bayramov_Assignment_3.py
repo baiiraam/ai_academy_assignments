@@ -2,7 +2,6 @@
 # Starter Code Template
 
 import numpy as np
-from scipy.linalg import lu as scipy_lu  # Used for verification
 
 
 # --- Helper Function for Pretty Printing ---

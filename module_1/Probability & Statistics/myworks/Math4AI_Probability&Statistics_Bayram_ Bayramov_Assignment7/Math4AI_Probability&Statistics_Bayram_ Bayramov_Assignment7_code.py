@@ -7,7 +7,7 @@ Math4AI: Probability & Statistics
 import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
-from scipy.stats import multivariate_normal, norm
+from scipy.stats import multivariate_normal
 
 # =============================================================================
 # Task 7.1: PageRank (Power Iteration)
