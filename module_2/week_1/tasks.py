@@ -25,14 +25,6 @@ def calculate_gravitational_force(
     return rounded_F
 
 
-m1 = 1.989e30
-m2 = 5.972e24
-r = 14959787e04
-print(
-    f"F for m1={m1}, m2={m2}, and r={r} is:\n {calculate_gravitational_force(m1, m2)}"
-)
-
-
 def ideal_gas_law(P=None, V=None, T=None, n=6.022e23, R=8.314):
     """
     Returns the missing variable in the ideal gas equation:
@@ -59,11 +51,6 @@ def ideal_gas_law(P=None, V=None, T=None, n=6.022e23, R=8.314):
     if P is None or V is None:
         raise ValueError("Only one variable can be None")
     return P * V / (n * R)
-
-
-V = 0.25
-T = 300
-print(f"P for V={V} and T={T} is:\n{ideal_gas_law(V=V, T=T)}")
 
 
 # All numbers could have been rounded, but I think it is ok for now
@@ -115,9 +102,6 @@ def credit_card_application():
     return "Deny"
 
 
-print(credit_card_application())
-
-
 def func():
     """
     Answer the questions with (y/n)
@@ -148,9 +132,6 @@ def func():
                 print("No problem")
 
 
-func()
-
-
 def caesar_cipher(textt="ABCDE", shiftt=12):
     """
     Returns the caesar cipher of the given text and shift.
@@ -169,9 +150,6 @@ def caesar_cipher(textt="ABCDE", shiftt=12):
     return "".join(res)
 
 
-print(caesar_cipher("HELLO", 21))
-
-
 def multiples_of_n_1():
     """
     Returns a list of multiples of n less than 100 for n in [2, 3, 7, 9]
@@ -179,9 +157,6 @@ def multiples_of_n_1():
     for n in [2, 3, 7, 9]:
         ll = [n * i for i in range(51) if n * i < 100]
         print(f"n={n} --> {ll}")
-
-
-multiples_of_n_1()
 
 
 def terms_of_a_series(N=5):
@@ -198,9 +173,6 @@ def terms_of_a_series(N=5):
         res.append(term)
         cumSum += term
     return f"{res} \n {cumSum}"
-
-
-print(terms_of_a_series())
 
 
 def multiples_of_n(n, a=1, b=10):
@@ -221,4 +193,25 @@ def multiples_of_n(n, a=1, b=10):
     return res
 
 
-print(multiples_of_n(3, 1, 30))
+def main():
+    m1 = 1.989e30
+    m2 = 5.972e24
+    r = 14959787e04
+    print(
+        f"F for m1={m1}, m2={m2}, and r={r} is:\n {calculate_gravitational_force(m1, m2)}"
+    )
+
+    V = 0.25
+    T = 300
+    print(f"P for V={V} and T={T} is:\n{ideal_gas_law(V=V, T=T)}")
+
+    print(credit_card_application())
+    func()
+    print(caesar_cipher("HELLO", 21))
+    multiples_of_n_1()
+    print(terms_of_a_series())
+    print(multiples_of_n(3, 1, 30))
+
+
+if __name__ == "__main__":
+    main()
