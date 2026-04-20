@@ -18,3 +18,4 @@ module_1/Linear Algebra/slides
 module_1/Linear Algebra/tasks
 __pycache__/
 .venv/
+.ruff_cache/
