@@ -263,7 +263,6 @@ def rosen_grad(x):
 # ====================================================================
 
 if __name__ == "__main__":
-
     print("=" * 50)
     print("Math4AI: Assignment 6 - Advanced Optimization Methods")
     print("=" * 50)
@@ -276,13 +275,13 @@ if __name__ == "__main__":
     print(f"Starting point: {x0}")
     print(f"BFGS result: {bfgs_result}")
     print(f"Function value: {rosen(bfgs_result):.10e}")
-    print(f"Number of iterations: {len(bfgs_path)-1}")
+    print(f"Number of iterations: {len(bfgs_path) - 1}")
 
     print("\n--- Problem 3.3: Conjugate Gradient Method ---")
     cg_result, cg_path = conjugate_gradient(rosen, rosen_grad, x0)
     print(f"CG result: {cg_result}")
     print(f"Function value: {rosen(cg_result):.10e}")
-    print(f"Number of iterations: {len(cg_path)-1}")
+    print(f"Number of iterations: {len(cg_path) - 1}")
 
     print("\n--- Problem 3.4: Trust-Region Visualization ---")
     print("Generating trust-region visualization plot...")

@@ -14,7 +14,7 @@ def print_vectors(name, vecs):
     elif isinstance(vecs, list) and all(isinstance(v, np.ndarray) for v in vecs):
         for i, v in enumerate(vecs):
             np.set_printoptions(precision=4, suppress=True)
-            print(f"  Vector {i+1}:\n{v.reshape(-1, 1)}")
+            print(f"  Vector {i + 1}:\n{v.reshape(-1, 1)}")
     else:
         print("Unsupported format for printing vectors.")
     print("-" * 40)
@@ -115,7 +115,9 @@ else:
             v1 = orthonormal_vectors[i]
             v2 = orthonormal_vectors[j]
             dot_product = np.dot(v1, v2)
-            print(f"Dot product of Vector {i+1} and Vector {j+1}: {dot_product:.6f}")
+            print(
+                f"Dot product of Vector {i + 1} and Vector {j + 1}: {dot_product:.6f}"
+            )
             if not np.isclose(dot_product, 0):
                 is_orthogonal = False
     print(f"Are all distinct pairs orthogonal? {is_orthogonal}\n")
@@ -125,7 +127,7 @@ else:
     is_normalized = True
     for i, v in enumerate(orthonormal_vectors):
         norm = np.linalg.norm(v)
-        print(f"Norm of Vector {i+1}: {norm:.6f}")
+        print(f"Norm of Vector {i + 1}: {norm:.6f}")
         if not np.isclose(norm, 1):
             is_normalized = False
     print(f"Are all vectors normalized (unit vectors)? {is_normalized}\n")
@@ -173,7 +175,7 @@ def print_vectors(name, vecs):
     elif isinstance(vecs, list) and all(isinstance(v, np.ndarray) for v in vecs):
         for i, v in enumerate(vecs):
             np.set_printoptions(precision=4, suppress=True)
-            print(f"  Vector {i+1}:\n{v.reshape(-1, 1)}")
+            print(f"  Vector {i + 1}:\n{v.reshape(-1, 1)}")
     else:
         print("Unsupported format for printing vectors.")
     print("-" * 40)

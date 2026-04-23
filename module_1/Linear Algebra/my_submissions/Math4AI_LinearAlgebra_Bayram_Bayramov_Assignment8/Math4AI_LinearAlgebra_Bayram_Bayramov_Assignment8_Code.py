@@ -213,7 +213,7 @@ for i, k in enumerate(ranks_to_show):
     recon = reconstruct_matrix(U, S_vals, VT, k)
     plt.subplot(1, len(ranks_to_show) + 1, i + 2)
     plt.imshow(recon, cmap="gray", vmin=0, vmax=1)
-    plt.title(f"k = {k}\n({100*k/len(S_vals):.1f}%)")
+    plt.title(f"k = {k}\n({100 * k / len(S_vals):.1f}%)")
     plt.axis("off")
 
 plt.suptitle("SVD Image Compression (From Scratch)", fontsize=16)
