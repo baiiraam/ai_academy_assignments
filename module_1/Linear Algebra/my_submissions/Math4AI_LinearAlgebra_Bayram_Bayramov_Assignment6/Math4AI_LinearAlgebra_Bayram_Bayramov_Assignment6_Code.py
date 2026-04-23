@@ -22,10 +22,10 @@ def print_vectors(name, vecs):
         print("[] (or not implemented)")
     elif isinstance(vecs, list) and all(isinstance(v, np.ndarray) for v in vecs):
         for i, v in enumerate(vecs):
-            print(f"  Basis Vector {i+1}:\n{v.reshape(-1, 1)}")
+            print(f"  Basis Vector {i + 1}:\n{v.reshape(-1, 1)}")
     elif isinstance(vecs, np.ndarray) and vecs.ndim == 2:
         for i in range(vecs.shape[1]):
-            print(f"  Basis Vector {i+1}:\n{vecs[:, i].reshape(-1, 1)}")
+            print(f"  Basis Vector {i + 1}:\n{vecs[:, i].reshape(-1, 1)}")
     else:
         print("Unsupported format for printing vectors.")
     print("-" * 40)

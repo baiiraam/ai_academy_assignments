@@ -647,7 +647,7 @@ def bonus_bootstrap_coverage_study(
     print("BONUS 1 (B1): Bootstrap Coverage Study for Lognormal Median")
     print("=" * 60)
     print(f"True median: {true_median} (logN with μ={mu:.3f}, σ={sigma})")
-    print(f"Confidence level: {ci_level*100}%")
+    print(f"Confidence level: {ci_level * 100}%")
     print(f"Simulations per sample size: {n_simulations}")
     print(f"Bootstrap resamples per dataset: {n_bootstraps}")
     print("-" * 60)

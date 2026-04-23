@@ -300,7 +300,7 @@ def main() -> None:
 
         model.update(heads, tails)
 
-        snapshots[f"Posterior ({50*step} flips)"] = (model.alpha, model.beta)
+        snapshots[f"Posterior ({50 * step} flips)"] = (model.alpha, model.beta)
 
     plot_belief_evolution(
         thetas, snapshots, filename=str(OUT_DIR / "bayesian_update.png")

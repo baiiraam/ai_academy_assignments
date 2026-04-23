@@ -30,8 +30,8 @@ def print_eigenpairs(name, eigenvalues, eigenvectors):
             if isinstance(eigenvectors, np.ndarray)
             else eigenvectors[i]
         )
-        print(f"  Eigenvalue λ_{i+1} = {val:.4f}")
-        print(f"  Eigenvector v_{i+1} =\n{vec.reshape(-1, 1)}")
+        print(f"  Eigenvalue λ_{i + 1} = {val:.4f}")
+        print(f"  Eigenvector v_{i + 1} =\n{vec.reshape(-1, 1)}")
     print("-" * 40)
 
 

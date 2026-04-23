@@ -5,4 +5,4 @@ module_1/ (MATH),
 \
 module_2/ (SWE).
 
-Adding this just for trial.
+Also, the folders may contain some additional code as I explore the framework, or library in general.

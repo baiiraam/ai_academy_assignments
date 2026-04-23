@@ -24,7 +24,7 @@ def print_vectors(name, vecs):
     else:
         for i, v in enumerate(vecs):
             # Reshape to ensure it's a column vector for printing
-            print(f"  Vector {i+1}:\n{v.reshape(-1, 1)}")
+            print(f"  Vector {i + 1}:\n{v.reshape(-1, 1)}")
     print("-" * 40)
 
 
@@ -161,7 +161,7 @@ else:
     for i, v in enumerate(nullspace_basis):
         # For each basis vector v, A @ v should be the zero vector
         result = A @ v
-        print(f"Verifying basis vector {i+1}: A @ v_{i+1}")
+        print(f"Verifying basis vector {i + 1}: A @ v_{i + 1}")
         print_matrix("Result (should be zero vector)", result.reshape(-1, 1))
         # Check if it's close to zero to handle floating point errors
         print(f"Is close to zero? {np.allclose(result, 0)}\n")
@@ -264,7 +264,7 @@ else:
     print("\nConstructing x_n from nullspace basis:")
     for i, v in enumerate(nullspace_basis):
         if i < len(scalars):
-            print(f"Adding {scalars[i]} * v_{i+1}")
+            print(f"Adding {scalars[i]} * v_{i + 1}")
             x_n += scalars[i] * v
 
     print_matrix("Constructed Nullspace Vector x_n", x_n.reshape(-1, 1))

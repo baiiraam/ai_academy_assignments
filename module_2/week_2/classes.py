@@ -1,5 +1,6 @@
 from multipledispatch import dispatch
 
+
 class Car:
     def __init__(self, name: str = "default_name", model: str = "default_model"):
         self.name = name
@@ -68,12 +69,12 @@ def print_data(data):
 
 
 @dispatch(list)
-def print_data(data):   # noqa F811
+def print_data(data):  # noqa F811
     print(f"list data {data}")
 
 
 @dispatch(int)
-def print_data(data):   # noqa 811
+def print_data(data):  # noqa 811
     print(f"int data {data}")
 
 

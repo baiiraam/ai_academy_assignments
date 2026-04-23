@@ -2,7 +2,10 @@ class InsufficientBalanceError(Exception):
     def __init__(self, balance, amount):
         self.balance = balance
         self.amount = amount
-        super().__init__(f"Insufficient balance! Available: {balance}, Requested: {amount}")
+        super().__init__(
+            f"Insufficient balance! Available: {balance}, Requested: {amount}"
+        )
+
 
 class Person:
     def __init__(self, name, surname, age, address):
@@ -23,7 +26,10 @@ class Person:
             print("Age must be greater than 0")
 
     def info(self):
-        print(f"{self.__name} {self.__surname} is {self.__age} years old, lives at {self.__address}")
+        print(
+            f"{self.__name} {self.__surname} is {self.__age} years old, lives at {self.__address}"
+        )
+
 
 class Employee:
     def __init__(self, name, salary, mkr_score):
@@ -46,6 +52,7 @@ class Employee:
         else:
             print("Invalid salary amount")
             self.__salary = 0
+
 
 class BankAccount:
     def __init__(self, owner, balance=0):
@@ -91,6 +98,7 @@ class BankAccount:
         if amount > self.__balance:
             raise InsufficientBalanceError(self.__balance, amount)
         self.__balance -= amount
+
 
 class Student:
     def __init__(self, name, age, grades):
@@ -148,3 +156,6 @@ class Student:
             return "Normal"
         else:
             return "Fail"
+
+
+# Okay let's do it
