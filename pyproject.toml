@@ -10,4 +10,5 @@ dependencies = [
     "numpy>=2.4.4",
     "requests>=2.33.1",
     "ruff>=0.15.11",
+    "ty>=0.0.32",
 ]
