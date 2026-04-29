@@ -765,7 +765,7 @@ def main() -> None:
     print("BONUS 1 (B1): Bootstrap Coverage Study")
     print("=" * 60)
 
-    results = bonus_bootstrap_coverage_study(
+    bonus_bootstrap_coverage_study(
         true_median=10.0,
         sample_sizes=[20, 50, 100, 200],
         n_simulations=500,

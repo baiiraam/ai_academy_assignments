@@ -25,7 +25,7 @@ def compute_loss(X, y, m, b):
     Computes the Mean Squared Error (MSE) loss.
     L(m, b) = (1/N) * sum( (y_i - (m*x_i + b))^2 )
     """
-    N = len(y)
+    len(y)
     X_flat = X.squeeze()
 
     # Calculate predictions
