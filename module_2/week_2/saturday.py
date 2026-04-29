@@ -29,14 +29,12 @@
 # # guid
 
 
-
 # # query parameters
 # s = {
 #     " userId": 4
 # }
 # res = requests.get(url, params=s)
 # print(res.json())
-
 
 
 import requests
@@ -50,9 +48,7 @@ import requests
 
 from pprint import pprint
 
-s = {
-    "id": 4
-}
+s = {"id": 4}
 
 
 url = "https://jsonplaceholder.typicode.com/posts"

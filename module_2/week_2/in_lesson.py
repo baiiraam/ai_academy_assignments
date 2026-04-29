@@ -2,6 +2,7 @@ from typing import Union
 
 # Maybe you need to add argparse.
 
+
 class Employee:
     def __init__(
         self,
