@@ -24,8 +24,6 @@ for row in data:
     print(row["username"].split(".")[0], " ", row["email"], " ", row["address"]["city"])
 
 
-
-
 url = "https://books.toscrape.com"
 res = requests.get(url)
 soup = BeautifulSoup(res.content, "html.parser")

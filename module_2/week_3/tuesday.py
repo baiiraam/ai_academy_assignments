@@ -21,16 +21,6 @@
 # print(soup.find("p", class_="price").text)
 
 
-
-
-
-
-
-
-
-
-
-
 # import requests
 
 # url = "1news.az"
@@ -47,16 +37,6 @@
 #     title = link.get_text(strip=True)
 #     href = link.get("href")
 #     print(title, href)
-
-
-
-
-
-
-
-
-
-
 
 
 # from urllib.parse import urljoin
@@ -88,7 +68,6 @@
 #     print("-"*50)
 
 
-
 # url = "books.toscrape.com/"
 # res
 # soup
@@ -111,8 +90,6 @@
 #     title = book.find('h3').find('a')['title']
 #     price = book.find('p', class_='price_color').text
 #     print(title, price)
-
-
 
 
 # import threading
@@ -154,7 +131,6 @@
 #  t.join()
 # t2 = perf_counter()
 # print(t2-t1)
-
 
 
 # import threading
