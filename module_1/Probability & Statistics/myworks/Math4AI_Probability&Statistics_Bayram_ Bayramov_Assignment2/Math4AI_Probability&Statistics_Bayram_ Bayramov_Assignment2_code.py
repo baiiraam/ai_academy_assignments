@@ -268,7 +268,7 @@ def run_section_3():
     ax_histy = fig.add_subplot(gs[1, 1], sharey=ax)
 
     # Contour
-    contour = ax.contourf(X, Y, Z, cmap="viridis", levels=20)
+    ax.contourf(X, Y, Z, cmap="viridis", levels=20)
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.set_title(f"Bivariate Gaussian PDF (ρ={rho})")

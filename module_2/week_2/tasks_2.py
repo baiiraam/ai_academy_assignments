@@ -156,9 +156,3 @@ class Student:
             return "Normal"
         else:
             return "Fail"
-
-
-# Okay let's do it
-
-
-

@@ -376,7 +376,7 @@ def gelman_rubin(chains):
     R_hat : float
         Potential scale reduction factor (should be close to 1 for convergence)
     """
-    m = len(chains)  # number of chains
+    len(chains)  # number of chains
     n = len(chains[0])  # length of each chain (assumed equal)
 
     # Compute within-chain variance
@@ -386,7 +386,7 @@ def gelman_rubin(chains):
     W = np.mean(chain_vars)  # within-chain variance
 
     # Compute between-chain variance
-    overall_mean = np.mean(chain_means)
+    np.mean(chain_means)
     B = n * np.var(chain_means, ddof=1)
 
     # Estimate target variance
@@ -406,7 +406,6 @@ def run_gelman_rubin_diagnostic():
     print("BONUS B1: Gelman-Rubin Convergence Diagnostic")
     print("=" * 60)
 
-    n_chains = 4
     n_samples = 5000
     starting_points = [-5, -2, 2, 5]
 

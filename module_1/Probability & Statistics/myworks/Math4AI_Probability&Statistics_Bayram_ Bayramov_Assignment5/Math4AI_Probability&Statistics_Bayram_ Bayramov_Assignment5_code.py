@@ -338,14 +338,13 @@ def plot_confidence_intervals(
     # Calculate error bar lengths
     yerr_lower = means - ci_lows
     yerr_upper = ci_highs - means
-    yerr = np.array([yerr_lower, yerr_upper])
+    np.array([yerr_lower, yerr_upper])
 
     # Create figure with better proportions
     fig, ax = plt.subplots(figsize=(8, 6))
 
     # Define colors (using a professional color palette)
     colors = ["#2E86AB", "#A23B72"]  # Blue and purple
-    point_colors = ["#F9C74F", "#F9844A"]  # Yellow and orange for points
 
     # Plot means with error bars
     for i, (mean, low, high, color) in enumerate(zip(means, ci_lows, ci_highs, colors)):
